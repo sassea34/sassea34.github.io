@@ -3,34 +3,57 @@
 <head>
         <meta charset="utf-8" />
         <title>sassea34's blog - 投稿</title>
-        <link rel="stylesheet" href="http://sassea34.github.io/theme/css/main.css" />
-        <link href="http://sassea34.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="sassea34's blog Atom Feed" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="http://sassea34.github.io/">sassea34's blog </a></h1>
+                <h1><a href="/">sassea34's blog </a></h1>
                 <nav><ul>
-                    <li><a href="http://sassea34.github.io/category/tesuto.html">テスト</a></li>
+                    <li><a href="/category/tesuto.html">テスト</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://sassea34.github.io/FirstPost.html">最初の投稿</a></h1>
+                    <h1 class="entry-title"><a href="/FirstPost.html">最初の投稿</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2019-05-29T00:00:00+09:00">
                 Published: 水 29 5月 2019
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="http://sassea34.github.io/author/sassea34.html">sassea34</a>
+                By                         <a class="url fn" href="/author/sassea34.html">sassea34</a>
         </address>
-<p>In <a href="http://sassea34.github.io/category/tesuto.html">テスト</a>.</p>
-<p>tags: <a href="http://sassea34.github.io/tag/tesuto.html">テスト</a> <a href="http://sassea34.github.io/tag/tou-gao.html">投稿</a> </p>
-</footer><!-- /.post-info --><h1>This is just a test for pelican</h1>
+<p>In <a href="/category/tesuto.html">テスト</a>.</p>
+<p>tags: <a href="/tag/tesuto.html">テスト</a> <a href="/tag/tou-gao.html">投稿</a> </p>
+</footer><!-- /.post-info --><h1>How to use pelican</h1>
 <ol>
-<li>Hello</li>
+<li>
+<p>Previous settings.</p>
+<ol>
+<li><code>git init</code> to initialize git repository.</li>
+<li><code>git remote add origin https://github.com/sassea34/sassea34.github.io.git</code></li>
+<li>Get <code>pmake.cmd</code> for windows to do <code>pmake html</code> instead of <code>make html</code>. <ul>
+<li><a href="https://qiita.com/daiki7nohe/items/ed82af5b302c83ff3336">Pelicanでブログ作成 on Windows</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Upload html.</p>
+<ol>
+<li><code>pmake html</code> to make html from .md files in content folder.</li>
+<li><code>ghp-import output</code> to specify folder to publish.</li>
+<li><code>git add --all</code></li>
+<li><code>git commit -m "(comment)"</code></li>
+<li><code>git push https://github.com/sassea34/sassea34.github.io.git gh-pages:master</code><ul>
+<li>error</li>
+</ul>
+</li>
+<li><code>git fetch &amp;&amp; git merge origin/master</code></li>
+</ol>
+</li>
 </ol>                </article>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
@@ -46,7 +69,6 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="http://sassea34.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="#">You can add links in your config file</a></li>
                             <li><a href="#">Another social link</a></li>

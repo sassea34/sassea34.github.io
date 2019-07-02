@@ -10,13 +10,207 @@
         <header id="banner" class="body">
                 <h1><a href="/">sassea34's blog </a></h1>
                 <nav><ul>
+                    <li><a href="/category/deep-learning.html">Deep Learning</a></li>
                     <li><a href="/category/tesuto.html">テスト</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/2ndPost.html">2nd post</a></h1>
+                    <h1 class="entry-title"><a href="/pytorch-to-tensorflow-to-keras.html">Pytorch と Tensorflow（ と Keras）</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2019-07-02T00:00:00+09:00">
+                Published: 火 02 7月 2019
+        </abbr>
+		<br />
+        <abbr class="modified" title="2019-07-02T00:00:00+09:00">
+                Updated: 火 02 7月 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/sassea34.html">sassea34</a>
+        </address>
+<p>In <a href="/category/deep-learning.html">Deep Learning</a>.</p>
+
+</footer><!-- /.post-info --><h1>Pytorch と Tensorflow（ と Keras）</h1>
+<h2>１．背景</h2>
+<ul>
+<li>PytorchでCNN,RNN,GANなど一通り学習した段階で、Tensorflowも使えたら良いなと思った。</li>
+<li>
+<p>CIFER-10 でチュートリアル的なCNNをベースに、両者を比較してみる。</p>
+<ul>
+<li>書籍をベースにTensorflowコードを実装したら、Kerasと混じっていて多少混乱・・・。<ul>
+<li>Tensorflowと、Tensorflowに取り込まれたKeras。</li>
+<li>ラッパーとしての独立Kerasも存在する。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Machine Learning Workflow</p>
+<ul>
+<li>頭の整理のためにワークフローを意識しながら勉強中。今回はこのあたりの話。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Step</th>
+<th align="center">Target Scope</th>
+<th>Machine Learning Workflow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Retrieve</td>
+<td align="center">o</td>
+<td>Explore &amp; Process Data</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Clean &amp; Explore</td>
+<td align="center"></td>
+<td>Explore &amp; Process Data</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prepare/Transform</td>
+<td align="center">o</td>
+<td>Explore &amp; Process Data</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Develop &amp; Train Model</td>
+<td align="center">o</td>
+<td>Modeling</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Validate/Evaluate Model</td>
+<td align="center"></td>
+<td>Modeling</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Deploy to Production</td>
+<td align="center"></td>
+<td>Deployment</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Monitor and Update Model &amp; Data</td>
+<td align="center"></td>
+<td>Deployment</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h2>２．勉強したこと</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>比較ポイント</th>
+<th>Pytorch</th>
+<th>Tensorflow ( with Keras inside )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Retrieve</td>
+<td>ダウンロードしたあと、ローカル保存を勝手にやってくれる。再利用時にダウンロードしないので楽。<font color="red">ただしデータ形式が良く分かっていない。（バイナリ？）</font><hr>&gt;<code>from torchvision import datasets</code><br>&gt;<code>train_data = datasets.CIFAR10('data', train=True, download=True, transform=transform)</code></td>
+<td>numpy.ndarrayの形でダウンロードまで。保存したければ、自分でcsvファイルにでも出力すれば良さそう。<hr>&gt;<code>from tensorflow.python.keras.datasets import cifar10</code><br>&gt;<code>(x_train, y_train),(x_test, y_test) = cifar10.load_data()</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Clean &amp; Explore</td>
+<td>CIFAR-10とかきれいなデータセットを使ってしまうと、ここはあまり勉強にならない気がする。</td>
+<td>（略）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Prepare/Transform</td>
+<td>正解データはクラス番号として扱う。</td>
+<td>1-hot vector化が必須？（多分）</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Develop &amp; Train Model</td>
+<td>モデル定義は同じように記載できる。</td>
+<td>・モデル定義は同じように記載できる。<br>・Trainingパートはやけにすっきりかけた。（Kerasのおかげ）<br>・また、TensorBoardがツールとして付いていて良い。</td>
+</tr>
+</tbody>
+</table>
+<h2>３．利用環境</h2>
+<table>
+<thead>
+<tr>
+<th>No</th>
+<th>名称</th>
+<th>状況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>CPU</td>
+<td>AMD Phenom(tm) II X6 1090T 3.20GHz<BR>これが<code>AVX（Advanced Vector Extensions）</code>を搭載しておらず、<BR>Tensorflowはver=1.5.0止まりとなってしまう。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>GPU</td>
+<td>GeForce GTX 1060 6GB<br>Jupyter notebookに多少メモリ開放バグあるみたい？<br>たまに6GB上限を気にするレベルで、とりあえずまだ大丈夫。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Memory</td>
+<td>16GB（あまり関係ないけど）<br>機械学習のため秋葉原で中古メモリ増設。4-&gt;16で色々快適に。</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Python</td>
+<td>Windows, Anaconda3-5.3.1 でver3.6の仮想環境（Tensorflow対応から3.6とした）<br>No5/No6はPython仮想環境で分けている。</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Pytorch</td>
+<td>Version 1.1.0 py3.6_cuda90_cudnn7_1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Tensorflow</td>
+<td>Version 1.5.0<BR>Visual Studio 2015 Version 14.0.25431.01 Update 3<BR>CUDA V9.0.176<BR>cuDNN v7.0.5[Dec 5, 2017], for CUDA 9.0</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>初めてTensorflowでのDeep Learningに成功！（Hello Worldとか1+2=3止まりでは無く）<ul>
+<li>Tensorflowは環境構築が大変だった。<ul>
+<li>ライブラリのバージョン依存関係について、Tensorflow公式サイトにあるので要注意。</li>
+<li>ブログ記事などから入ってしまい、理解できるまで混乱した。</li>
+<li>あとCPUが古く<code>AVX非対応</code>からのバージョン<code>1.5.0</code>縛りとか・・。</li>
+<li>セットアップだけでいうと、GPU利用がすんなり行ったため、Pytorchのほうが好き。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/2ndPost.html" rel="bookmark"
+                           title="Permalink to 2nd post">2nd post</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2019-06-16T00:00:00+09:00">
                 Published: 日 16 6月 2019
@@ -27,15 +221,10 @@
         </address>
 <p>In <a href="/category/tesuto.html">テスト</a>.</p>
 <p>tags: <a href="/tag/tesuto.html">テスト</a> <a href="/tag/tou-gao.html">投稿</a> </p>
-</footer><!-- /.post-info --><h1>This is just a test for pelican</h1>
-<ol>
-<li>Hello at 2nd page!</li>
-</ol>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>簡単にブログ作成</p>
+                <a class="readmore" href="/2ndPost.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

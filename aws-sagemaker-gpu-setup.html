@@ -81,9 +81,13 @@
 </ul>
 </li>
 <li>
-<p>Re-make Notebook instance on ml.p2.xlarge.</p>
+<p>Re-make Notebook instance on ml.p2.xlarge.  </p>
 </li>
-<li>Confirmation</li>
+</ol>
+</li>
+<li>
+<p>Confirmation</p>
+<ul>
 <li>
 <p>Type the codes in Notebook cell.</p>
 <p>```python
@@ -92,7 +96,7 @@ import torch</p>
 print(torch.cuda.get_device_name(0))# Tesla K80 etc.
 ```</p>
 </li>
-</ol>
+</ul>
 </li>
 <li>
 <p>Costs / Notes</p>
@@ -101,12 +105,49 @@ print(torch.cuda.get_device_name(0))# Tesla K80 etc.
 <p>Take care that ml.p2.xlarge costs some, <code>for Notebook Instance ml.p2.xlarge per hour</code>.</p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/sagemaker/pricing/instance-types/">Notebook Instances</a> which I have used.
-    |Instance Type|vCPU|GPU|Memory(GiB)|GPU Memory(GiB)|Network Performance|Note|
-    |--|--|--|--|--|--|--|
-    |ml.t2.medium|2|-|4|-|Low-Middle|SageMaker with CPU.|
-    |ml.p2.xlarge|4|1xK80|61|12|High|SageMaker with GPU. This costs by hourly fee.|
-    |ml.m4.xlarge|4|-|16|-|High|Deploy the model.|</p>
+<p><a href="https://aws.amazon.com/sagemaker/pricing/instance-types/">Notebook Instances</a> which I have used.</p>
+<table>
+<thead>
+<tr>
+<th>Instance Type</th>
+<th>vCPU</th>
+<th>GPU</th>
+<th>Memory(GiB)</th>
+<th>GPU Memory(GiB)</th>
+<th>Network Performance</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ml.t2.medium</td>
+<td>2</td>
+<td>-</td>
+<td>4</td>
+<td>-</td>
+<td>Low-Middle</td>
+<td>SageMaker with CPU.</td>
+</tr>
+<tr>
+<td>ml.p2.xlarge</td>
+<td>4</td>
+<td>1xK80</td>
+<td>61</td>
+<td>12</td>
+<td>High</td>
+<td>SageMaker with GPU. This costs by hourly fee.</td>
+</tr>
+<tr>
+<td>ml.m4.xlarge</td>
+<td>4</td>
+<td>-</td>
+<td>16</td>
+<td>-</td>
+<td>High</td>
+<td>Deploy the model.</td>
+</tr>
+</tbody>
+</table>
 </li>
 </ul>
 </li>

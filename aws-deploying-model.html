@@ -96,16 +96,15 @@
 <p>Do not worry so much about CORS.  </p>
 <ul>
 <li>
-<p>It will be working that Lambda function code includes below.
-    <code>python
-    return {
-        'statusCode' : 200,
-        'headers' : { 'Content-Type' : 'text/plain', 'Access-Control-Allow-Origin' : '*' },
-        'body' : result
-    }</code></p>
-<ul>
-<li><code>'Access-Control-Allow-Origin' : '*'</code> part allows all access.</li>
-</ul>
+<p>It will be working that Lambda function code includes below.  </p>
+<p><code>python
+return {
+    'statusCode' : 200,
+    'headers' : { 'Content-Type' : 'text/plain',
+    'Access-Control-Allow-Origin' : '*' },
+    'body' : result
+}</code>
+* <code>'Access-Control-Allow-Origin' : '*'</code> part allows all access.</p>
 </li>
 <li>
 <p>There are articles for CORS, but for me, it is not necessary to success deploying.</p>

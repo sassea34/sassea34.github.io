@@ -1,189 +1,171 @@
-﻿﻿<!DOCTYPE html>
-<!--[if IE 8 ]><html class="ie ie8" lang="japanese"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
+<!DOCTYPE html>
 <html lang="japanese">
-<!--<![endif]-->
-	<head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="author" content="sassea34">
+<head>
+        <meta charset="utf-8" />
+        <title>sassea34's blog - Deep Learning</title>
+        <link rel="stylesheet" href="https://sassea34.github.io/theme/css/main.css" />
 
-
-        <title>sassea34's blog - Articles in Deep Learning category</title>
-
-
-        <!-- CSS -->
-        <link rel="stylesheet" href="https://sassea34.github.io/theme/css/style.css">
-
-        <!-- Custom CSS -->
-        	<link rel="stylesheet" href="https://sassea34.github.io/theme/css/colors/blue.css" id="colors">
-
-        <!-- Code highlight color scheme -->
-            <link href="https://sassea34.github.io/theme/css/code_blocks/darkly.css" rel="stylesheet">
-
-
-        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+</head>
 
-                <meta property="og:locale" content="">
-		<meta property="og:site_name" content="sassea34's blog">
-	</head>
-	<body>
-		<header id="header">
-			<!-- Container -->
-			<div class="container">
-				<!-- Logo / Mobile Menu -->
-				<div class="five columns">
-					<div id="textlogo">
-						<h1><a href="https://sassea34.github.io/">sassea34's blog</a></h1>
-					</div>
-				</div>
-						<!-- Navigation
-				================================================== -->
-				<div class="eleven columns">
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://sassea34.github.io/">sassea34's blog </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="https://sassea34.github.io/category/deep-learning.html">Deep Learning</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
 
-					<nav id="navigation" class="menu">
-						<ul id="responsive">
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/aws-deploying-model.html">AWS - Deploying Model</a></h1>
+<footer class="post-info">
+        <span>月 15 7月 2019</span>
 
-							<li><a href="https://sassea34.github.io/">Home</a></li>
+</footer><!-- /.post-info --><h1>AWS - Deploying Model ( dealing with problems)</h1>
+<h2>When after all procedure, the server error continues.</h2>
+<ul>
+<li>"Missing Authentication Token"</li>
+<li>"Internal server error"</li>
+<li>500 / 403 error.</li>
+</ul>
+<hr>
+<h3>Backgrounds</h3>
+<ul>
+<li>I'm not used to deploying / writing html.</li>
+<li>There may be many errors or changes besides on a state when to try deploying.</li>
+<li>So I was confused how to solve these errors.</li>
+<li>Security level is not described here. </li>
+</ul>
+<hr>
+<h3>Errors I have gotten.</h3>
+<ol>
+<li>HTML Responce shows <ol>
+<li>{"message":"Missing Authentication Token"}</li>
+<li>{"message": "Internal server error"}</li>
+</ol>
+</li>
+<li>Chrome DevTools Console tab ( <code>Press F12 on chrome browser</code> ) shows <ol>
+<li>Failed to load resource: the <em>[Expression like Invoke URL]</em> server responded with a status of 500 ()</li>
+<li>Access to XMLHttpRequest at <em>[Expression like Invoke URL]</em> from origin 'null' has been blocked by CORS policy: No 'Access-Control-Alllow-Origin' header is present on the requested resource.</li>
+<li>POST <em>[Expression like Invoke URL]</em> 500</li>
+<li>POST <em>[Expression like Invoke URL]</em> 403</li>
+</ol>
+</li>
+</ol>
+<hr>
+<h3>Checkpoints</h3>
+<ol>
+<li><code>POST method written properly on html</code>, check if index.html has it on properly.<ul>
+<li>Though this is a basic point, but I am not used to deploy web pages, then I take time to notice this point.</li>
+</ul>
+</li>
+<li><code>The deployment process</code>, which we must cycling to succeed.<ol>
+<li>Create an IAM Role for the Lambda function<ul>
+<li>This is ok to reuse, no need to reset on each trial.</li>
+</ul>
+</li>
+<li>Create Lambda function<ul>
+<li><code>Reset the endpoint name</code> is mandatory on each trial. Check the name by predictor.endpoint on Notebook.</li>
+</ul>
+</li>
+<li>Setting up API Gateway<ul>
+<li>If Lambda function name is same, it may better to <code>recreate API itself to enable changes on Lambda function</code>.<ul>
+<li>I guess when recreate it, it updates the related Lambda function, and changes in Lambda function is enabled.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Do not worry so much about CORS.  </p>
+<ul>
+<li>
+<p>It will be working that Lambda function code includes below.  </p>
+<p><code>python
+return {
+    'statusCode' : 200,
+    'headers' : { 'Content-Type' : 'text/plain',
+    'Access-Control-Allow-Origin' : '*' },
+    'body' : result
+}</code>
+* <code>'Access-Control-Allow-Origin' : '*'</code> part allows all access.</p>
+</li>
+<li>
+<p>There are articles for CORS, but for me, it is not necessary to success deploying.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS Wiki</a></li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html">Enable CORS for an API Gateway REST API Resource</a><ul>
+<li>This is same included in sample Lambda function.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Do not mix the issue to enable GPU on Notebook.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3>Reference</h3>
+<ul>
+<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/CommonErrors.html">Common Errors on AWS</a></li>
+</ul>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <ol id="posts-list" class="hfeed">
 
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/aws-sagemaker-gpu-setup.html" rel="bookmark"
+                           title="Permalink to AWS - SageMaker GPU setup">AWS - SageMaker GPU setup</a></h1>
+                </header>
 
-						</ul>
-					</nav>
-				</div>
-			</div>
-			<!-- Container / End -->
-		</header>
-		<!-- Header / End -->
+                <div class="entry-content">
+<footer class="post-info">
+        <span>月 15 7月 2019</span>
 
-		<!-- Breadcrumbs Container-->
-		<div id="content-wrapper">
-			<section id="titlebar">
-				<!-- Container -->
-				<div class="container">
-				<div class="thirteen columns">
-					<nav id="breadcrumbs">
-						<ul>
-							<li>You are here:</li>
-							<li><a href="https://sassea34.github.io/">Home</a></li>
-<li><a href="https://sassea34.github.io/categories.html">Categories</a></li>
-<li>Deep Learning</li>
-						</ul>
-					</nav>
-				</div>
-				</div>
-				<!-- Container / End -->
-			</section>
+</footer><!-- /.post-info -->                <p>The method of SageMaker GPU setup.</p>
+                <a class="readmore" href="https://sassea34.github.io/aws-sagemaker-gpu-setup.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
-			<div class="container">
-	<div class="twelve alt columns">
-		<!-- Post -->
-		<article class="post medium">
-			<div class="twelve columns">
-				<section class="post-content">
-					<header class="meta">
-						<h2><a href="https://sassea34.github.io/aws-deploying-model.html" rel="bookmark" title="Permalink to AWS - Deploying Model">AWS - Deploying Model</a></h2>
-						<ul>
-							<li>By <a href="https://sassea34.github.io/author/sassea34.html">sassea34</a></li>
-							<li>月 15 7月 2019</li>
-							<li><a href="https://sassea34.github.io/category/Deep Learning">Deep Learning</a></li>
-						</ul>
-					</header>
-					<p>
-							<p>The method of Deploying Model on AWS</p>
-	        		</p>
-					<a href="https://sassea34.github.io/aws-deploying-model.html" class="button color">Read More</a>
-				</section>
-			</div>
-			<div class="clearfix"></div>
-		</article>
-		<!-- Post -->
-		<article class="post medium">
-			<div class="twelve columns">
-				<section class="post-content">
-					<header class="meta">
-						<h2><a href="https://sassea34.github.io/aws-sagemaker-gpu-setup.html" rel="bookmark" title="Permalink to AWS - SageMaker GPU setup">AWS - SageMaker GPU setup</a></h2>
-						<ul>
-							<li>By <a href="https://sassea34.github.io/author/sassea34.html">sassea34</a></li>
-							<li>月 15 7月 2019</li>
-							<li><a href="https://sassea34.github.io/category/Deep Learning">Deep Learning</a></li>
-						</ul>
-					</header>
-					<p>
-							<p>The method of SageMaker GPU setup.</p>
-	        		</p>
-					<a href="https://sassea34.github.io/aws-sagemaker-gpu-setup.html" class="button color">Read More</a>
-				</section>
-			</div>
-			<div class="clearfix"></div>
-		</article>
-		<!-- Post -->
-		<article class="post medium">
-			<div class="twelve columns">
-				<section class="post-content">
-					<header class="meta">
-						<h2><a href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html" rel="bookmark" title="Permalink to Pytorch と Tensorflow（ と Keras）">Pytorch と Tensorflow（ と Keras）</a></h2>
-						<ul>
-							<li>By <a href="https://sassea34.github.io/author/sassea34.html">sassea34</a></li>
-							<li>火 02 7月 2019</li>
-							<li><a href="https://sassea34.github.io/category/Deep Learning">Deep Learning</a></li>
-						</ul>
-					</header>
-					<p>
-							<p>今のところPytorchが好き</p>
-	        		</p>
-					<a href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html" class="button color">Read More</a>
-				</section>
-			</div>
-			<div class="clearfix"></div>
-		</article>
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html" rel="bookmark"
+                           title="Permalink to Pytorch と Tensorflow（ と Keras）">Pytorch と Tensorflow（ と Keras）</a></h1>
+                </header>
 
-	<!-- Pagination -->
-	<nav class="pagination">
-		<ul>
-			<li>
-			</li>
-			<!-- Page 1 / 1 -->
-		</ul>
-		<div class="clearfix"></div>
-	</nav>
-	</div>
+                <div class="entry-content">
+<footer class="post-info">
+        <span>火 02 7月 2019</span>
 
-	<!-- Sidebar -->
-	<div class="four columns">
+</footer><!-- /.post-info -->                <p>今のところPytorchが好き</p>
+                <a class="readmore" href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
 
-		
-	</div>
-			</div>
-			<!-- Container / End -->
-		</div>
-		<!-- Content Wrapper / End -->
+                            <li><a href="https://github.com/sassea34">GitHub</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
-		<div id="footer-bottom">
-			<!-- Container -->
-			<div class="container">
-				<div class="eight columns">&copy;  || Blog powered by <a href="http://getpelican.com">Pelican</a></div>
-					<div class="eight columns">
-						<ul class="social-icons-footer">
-								<li>
-									<a href="https://github.com/sassea34" class="tooltip top" title="GitHub">
-										<i class="icon-github"></i>
-									</a>
-								</li>
-							<li><a href="https://sassea34.github.io/None" class="tooltip top" title="RSS"><i class="icon-rss"></i></a></li>
-						</ul>
-					</div>
-			</div>
-			<!-- Container / End -->
-		</div>
-		<!-- Footer Bottom / End -->
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
 
-	<!-- Javascripts -->
-	<script src="https://sassea34.github.io/theme/js/jquery.min.js"></script>
-	</body>
+</body>
 </html>

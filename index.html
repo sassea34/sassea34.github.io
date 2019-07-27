@@ -1,226 +1,132 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="japanese">
 <head>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  
-  <title>sassea34's blog</title>
-<link href="/theme/css/style.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="/" type="application/atom+xml" rel="alternate" title="sassea34's blog ATOM Feed" />
-  
-  <!--[if IE]>
-  <style type="text/css"> 
-  .twoColFixRtHdr #mainContent { zoom: 1; }
-  </style>
-  <![endif]-->
-
+        <title>sassea34's blog</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="/theme/js/ie/html5shiv.js"></script><![endif]-->
+        <!--[if lte IE 8]><link rel="stylesheet" href="/theme/css/ie8.css" /><![endif]-->
 </head>
 
 <body>
+        <header id="banner" class="body">
+                <h1><a href="/">sassea34's blog <strong></strong></a></h1>
+        </header><!-- /#banner -->
+<!-- Sidebar -->
+            <div id="sidebar">
 
-<div id="container">
+                <!-- Logo -->
+                    <h1 id="logo"><a href="/">sassea34's blog</a></h1>
+                    <!-- Text -->
+                    <section class="box text-style1">
+                        <div class="inner">
+                            <p>
+                                <strong>Ut scelerisque nec sapien ut sollicitudin:</strong><br />
+                            </p>
+                        </div>
+                    </section>
+                <!-- Nav -->
+                    <nav id="nav">
+                        <ul>
+                            
+                            <li><a href="#">Nam euismod dui</a></li>
+                            <li><a href="#">Integer eget eros</a></li>
+                            <li><a href="#">Proin vehicula tortor</a></li>
+                            <li><a href="#">Vestibulum consectetur tellus</a></li>
+                        </ul>
+                    </nav>
 
-  <div id="header">
-  <h1><a href="">sassea34's blog</h1>
-  
-  </div><!-- end #header -->
-  
-  <div id="topMenu">
-  
-    <ul>
-    	<li><a href="">Home</a></li>
-        <li>&ndash;</li>
-        <li><a href="/archives.html">Archives</a></li>
-        
-    </ul>
-  
-  </div><!-- end #topMenu -->
+                <!-- Search -->
+                    <!-- <section class="box search">
+                        <form method="post" action="#">
+                            <input type="text" class="text" name="search" placeholder="Search" />
+                        </form>
+                    </section> -->
 
-  <div id="sidebar">
-	<h3>Pages</h3>
-	<ul>
-	</ul>
-    <h3>Categories</h3>
-    <ul>
-		 <li ><a href="/category/deep-learning.html">Deep Learning</a></li>
-	</ul>
-	<li>
-		<h3>Blogroll</h3>
-		<ul>
-                    <li><a href="http://getpelican.com/">Pelican</a></li>
-                    <li><a href="http://python.org/">Python.org</a></li>
-                    <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                    <li><a href="#">You can modify those links in your config file</a></li>
-		</ul>
-	</li>
-        <li>
-                <h3>Social</h3>
-                <ul>
-                    <li><a href="/" rel="alternate">Flux Atom</a></li>
-                    <li><a href="#">You can add links in your config file</a></li>
-                    <li><a href="#">Another social link</a></li>
-                </ul>
-        </li><!-- /.social -->
-<li>
-        <h3>Tags</h3>
-        <ul>
-        </ul>
-</li>
-    
-  
-  </div><!-- end #sidebar -->
+                
 
-  <div id="mainContent">
-  	
- 
-        
-  	
-    <div class="blogItem">
-    
-      <h2><a href="/aws-deploying-model.html">AWS - Deploying Model</a></h2>
-      <h3>Le 月 15 7月 2019</h3>
-      
-      <h1>AWS - Deploying Model ( dealing with problems)</h1>
-<h2>When after all procedure, the server error continues.</h2>
-<ul>
-<li>"Missing Authentication Token"</li>
-<li>"Internal server error"</li>
-<li>500 / 403 error.</li>
-</ul>
-<hr>
-<h3>Backgrounds</h3>
-<ul>
-<li>I'm not used to deploying / writing html.</li>
-<li>There may be many errors or changes besides on a state when to try deploying.</li>
-<li>So I was confused how to solve these errors.</li>
-<li>Security level is not described here. </li>
-</ul>
-<hr>
-<h3>Errors I have gotten.</h3>
-<ol>
-<li>HTML Responce shows <ol>
-<li>{"message":"Missing Authentication Token"}</li>
-<li>{"message": "Internal server error"}</li>
-</ol>
-</li>
-<li>Chrome DevTools Console tab ( <code>Press F12 on chrome browser</code> ) shows <ol>
-<li>Failed to load resource: the <em>[Expression like Invoke URL]</em> server responded with a status of 500 ()</li>
-<li>Access to XMLHttpRequest at <em>[Expression like Invoke URL]</em> from origin 'null' has been blocked by CORS policy: No 'Access-Control-Alllow-Origin' header is present on the requested resource.</li>
-<li>POST <em>[Expression like Invoke URL]</em> 500</li>
-<li>POST <em>[Expression like Invoke URL]</em> 403</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h3>Checkpoints</h3>
-<ol>
-<li><code>POST method written properly on html</code>, check if index.html has it on properly.<ul>
-<li>Though this is a basic point, but I am not used to deploy web pages, then I take time to notice this point.</li>
-</ul>
-</li>
-<li><code>The deployment process</code>, which we must cycling to succeed.<ol>
-<li>Create an IAM Role for the Lambda function<ul>
-<li>This is ok to reuse, no need to reset on each trial.</li>
-</ul>
-</li>
-<li>Create Lambda function<ul>
-<li><code>Reset the endpoint name</code> is mandatory on each trial. Check the name by predictor.endpoint on Notebook.</li>
-</ul>
-</li>
-<li>Setting up API Gateway<ul>
-<li>If Lambda function name is same, it may better to <code>recreate API itself to enable changes on Lambda function</code>.<ul>
-<li>I guess when recreate it, it updates the related Lambda function, and changes in Lambda function is enabled.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-<li>
-<p>Do not worry so much about CORS.  </p>
-<ul>
-<li>
-<p>It will be working that Lambda function code includes below.  </p>
-<p><code>python
-return {
-    'statusCode' : 200,
-    'headers' : { 'Content-Type' : 'text/plain',
-    'Access-Control-Allow-Origin' : '*' },
-    'body' : result
-}</code>
-* <code>'Access-Control-Allow-Origin' : '*'</code> part allows all access.</p>
-</li>
-<li>
-<p>There are articles for CORS, but for me, it is not necessary to success deploying.</p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS Wiki</a></li>
-<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html">Enable CORS for an API Gateway REST API Resource</a><ul>
-<li>This is same included in sample Lambda function.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Do not mix the issue to enable GPU on Notebook.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h3>Reference</h3>
-<ul>
-<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/CommonErrors.html">Common Errors on AWS</a></li>
-</ul>	
+                <!-- Recent Posts -->
+                    <section class="box recent-posts">
+                        <header>
+                            <h2>Contact Me</h2>
+                        </header>
+                        <ul>
+                            <li><a class="icon fa-envelope" href="#"> eMail</a></li>
+                            <li><a class="icon fa-twitter" href="#"> Twitter</a></li>
+                            <li><a class="icon fa-facebook" href="#"> Facebook</a></li>
+                            <li><a class="icon fa-github" href="#"> Github</a></li>
+                            
+                        </ul>
+                    </section>
 
-      
-      <h3 class="blogMeta">Par <a href="#">sassea34</a>, Catégorie : <a href="/category/deep-learning.html">Deep Learning</a></h3>
-	<h3 class="blogMeta">Tags : </h3>
-    
-    </div><!-- end #blogItem -->
-	
-        <div class="blogItem">
-                <h2>Autres articles</h2>
-        </div>
-        
-    
-    <div class="blogItem">
-    
-      <h2><a href="/aws-sagemaker-gpu-setup.html">AWS - SageMaker GPU setup</a></h2>
-      <h3>Le 月 15 7月 2019</h3>
-      
-      <p>The method of SageMaker GPU setup.</p>	
-<h3 class="blogMeta">Par <a href="#">sassea34</a>, Catégorie : <a href="/category/deep-learning.html">Deep Learning</a></h3>
-	<a href="/aws-sagemaker-gpu-setup.html">Lire la suite …</a>
-      
-      
-	
-    
-    </div><!-- end #blogItem -->
-        
-    
-    <div class="blogItem">
-    
-      <h2><a href="/pytorch-to-tensorflow-to-keras.html">Pytorch と Tensorflow（ と Keras）</a></h2>
-      <h3>Le 火 02 7月 2019</h3>
-      
-      <p>今のところPytorchが好き</p>	
-<h3 class="blogMeta">Par <a href="#">sassea34</a>, Catégorie : <a href="/category/deep-learning.html">Deep Learning</a></h3>
-	<a href="/pytorch-to-tensorflow-to-keras.html">Lire la suite …</a>
-      
-      
-	
-    
-    </div><!-- end #blogItem -->
-  
-  </div><!-- end #mainContent -->
 
-<div class="clearfloat"></div>
 
-  <div id="footer">
-  
-    <p><a href="http://css4free.com/" title="free CSS web site designs">Free CSS Gallery</a></p>
-    <p>Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
-  </div><!-- end #footer -->
+                <!-- Copyright -->
+                    <ul id="copyright">
+                        <li>Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>.</li>
+                        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                        <li>Modified under a <a href="https://creativecommons.org/licenses/by/3.0/">CC:BY</a> license.</li>
+                    </ul>
 
-</div><!-- end #container -->
+            </div><!-- /#menu -->
+<div id="content">
+<div class="inner">
+<!-- <h2>All articles</h2>
+ -->
+
+        <article class="box post post-excerpt">
+                <header> 
+                <h2><a href="/aws-deploying-model.html" rel="bookmark" title="Permalink to AWS - Deploying Model">AWS - Deploying Model</a></h2> 
+                <p></p>
+                </header>
+                <div class="info">
+                    <span class="date" datetime="2019-07-15T00:00:00+09:00"><span class="month">7</span> <span class="day">15</span> <span class="month"> 2019</span></span>
+                    <!-- <ul class="stats">
+                                    <li><a href="#" class="icon fa-comment">16</a></li>
+                                    <li><a href="#" class="icon fa-heart">32</a></li>
+                                    <li><a href="#" class="icon fa-twitter">64</a></li>
+                                    <li><a href="#" class="icon fa-facebook">128</a></li>
+                                </ul> -->
+                </div><!-- /.post-info -->
+                <div class="entry-content"> &nbsp; </div><!-- /.entry-content -->
+        </article>
+        <article class="box post post-excerpt">
+                <header> 
+                <h2><a href="/aws-sagemaker-gpu-setup.html" rel="bookmark" title="Permalink to AWS - SageMaker GPU setup">AWS - SageMaker GPU setup</a></h2> 
+                <p></p>
+                </header>
+                <div class="info">
+                    <span class="date" datetime="2019-07-15T00:00:00+09:00"><span class="month">7</span> <span class="day">15</span> <span class="month"> 2019</span></span>
+                    <!-- <ul class="stats">
+                                    <li><a href="#" class="icon fa-comment">16</a></li>
+                                    <li><a href="#" class="icon fa-heart">32</a></li>
+                                    <li><a href="#" class="icon fa-twitter">64</a></li>
+                                    <li><a href="#" class="icon fa-facebook">128</a></li>
+                                </ul> -->
+                </div><!-- /.post-info -->
+                <div class="entry-content"> &nbsp; </div><!-- /.entry-content -->
+        </article>
+        <article class="box post post-excerpt">
+                <header> 
+                <h2><a href="/pytorch-to-tensorflow-to-keras.html" rel="bookmark" title="Permalink to Pytorch と Tensorflow（ と Keras）">Pytorch と Tensorflow（ と Keras）</a></h2> 
+                <p></p>
+                </header>
+                <div class="info">
+                    <span class="date" datetime="2019-07-02T00:00:00+09:00"><span class="month">7</span> <span class="day">02</span> <span class="month"> 2019</span></span>
+                    <!-- <ul class="stats">
+                                    <li><a href="#" class="icon fa-comment">16</a></li>
+                                    <li><a href="#" class="icon fa-heart">32</a></li>
+                                    <li><a href="#" class="icon fa-twitter">64</a></li>
+                                    <li><a href="#" class="icon fa-facebook">128</a></li>
+                                </ul> -->
+                </div><!-- /.post-info -->
+                <div class="entry-content"> &nbsp; </div><!-- /.entry-content -->
+        </article>
+<!-- /#posts-list -->
+</div>
+</div><!-- /#content -->
+<!-- /#contentinfo -->
 </body>
 </html>

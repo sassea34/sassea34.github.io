@@ -21,103 +21,172 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/aws-deploying-model.html">AWS - Deploying Model</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html">PythonをC#/C++どちらから呼び出すのが良いか？</a></h1>
 <footer class="post-info">
-        <span>月 15 7月 2019</span>
+        <span>金 02 8月 2019</span>
 
-</footer><!-- /.post-info --><h1>AWS - Deploying Model ( dealing with problems)</h1>
-<h2>When after all procedure, the server error continues.</h2>
+</footer><!-- /.post-info --><h1>PythonをC#/C++どちらから呼び出すのが良いか？</h1>
+<h2>背景</h2>
 <ul>
-<li>"Missing Authentication Token"</li>
-<li>"Internal server error"</li>
-<li>500 / 403 error.</li>
+<li>Deep Learningで Pythonを利用しながら、GUIはWindows Visual Studioで簡単にデザインしたい。<ul>
+<li>使い方としては特に画像の扱い。画像セットとアノテーション情報をGUIで分析確認する等の使い方も想定したい。</li>
+</ul>
+</li>
+<li>ゆくゆくはDeep LearningのDeploy寄りのツールとして。<ul>
+<li>Pythonコードの推論部だけをC++等で記述して、Deployを効果的に行えるようなSoftware構成を検討したい。</li>
+</ul>
+</li>
+<li>Deep Learningやコーディングを勉強中であり、調査しながら良い形を模索したい。</li>
 </ul>
 <hr>
-<h3>Backgrounds</h3>
+<h2>検討１：Python環境の呼び出しやすさの観点では？</h2>
+<table>
+<thead>
+<tr>
+<th align="right">No</th>
+<th>GUI構築</th>
+<th>Python呼び出し方法</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td>C#</td>
+<td>追加ライブラリ無しでOKの模様</td>
+<td>Microsoftの例としてAnaconda環境。その他のPython環境も使えるらしい。</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>C++</td>
+<td>Boost.Pythonが必要？</td>
+<td>No1とやれることは似通っているようにみえる。PythonからC++（逆方向）もできる。</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>C#(.net)</td>
+<td>pythonnet</td>
+<td>Python3.5までの対応の模様。</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td>C#</td>
+<td>IronPython</td>
+<td>IronPythonは動かないという情報が多い。</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td>任意</td>
+<td>PythonをWebAPI化(Flask?)</td>
+<td>引数→出力　以上の連携が楽になる。サーバーを別立てした構成が立てやすくなるはず。</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>I'm not used to deploying / writing html.</li>
-<li>There may be many errors or changes besides on a state when to try deploying.</li>
-<li>So I was confused how to solve these errors.</li>
-<li>Security level is not described here. </li>
-</ul>
-<hr>
-<h3>Errors I have gotten.</h3>
-<ol>
-<li>HTML Responce shows <ol>
-<li>{"message":"Missing Authentication Token"}</li>
-<li>{"message": "Internal server error"}</li>
-</ol>
-</li>
-<li>Chrome DevTools Console tab ( <code>Press F12 on chrome browser</code> ) shows <ol>
-<li>Failed to load resource: the <em>[Expression like Invoke URL]</em> server responded with a status of 500 ()</li>
-<li>Access to XMLHttpRequest at <em>[Expression like Invoke URL]</em> from origin 'null' has been blocked by CORS policy: No 'Access-Control-Alllow-Origin' header is present on the requested resource.</li>
-<li>POST <em>[Expression like Invoke URL]</em> 500</li>
-<li>POST <em>[Expression like Invoke URL]</em> 403</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h3>Checkpoints</h3>
-<ol>
-<li><code>POST method written properly on html</code>, check if index.html has it on properly.<ul>
-<li>Though this is a basic point, but I am not used to deploy web pages, then I take time to notice this point.</li>
-</ul>
-</li>
-<li><code>The deployment process</code>, which we must cycling to succeed.<ol>
-<li>Create an IAM Role for the Lambda function<ul>
-<li>This is ok to reuse, no need to reset on each trial.</li>
-</ul>
-</li>
-<li>Create Lambda function<ul>
-<li><code>Reset the endpoint name</code> is mandatory on each trial. Check the name by predictor.endpoint on Notebook.</li>
-</ul>
-</li>
-<li>Setting up API Gateway<ul>
-<li>If Lambda function name is same, it may better to <code>recreate API itself to enable changes on Lambda function</code>.<ul>
-<li>I guess when recreate it, it updates the related Lambda function, and changes in Lambda function is enabled.</li>
+<li>
+<p>No1　<font color="red">現状の結論としてはこれをやってみたい。</font></p>
+<ul>
+<li><a href="https://code.msdn.microsoft.com/windowsdesktop/C-and-Python-interprocess-171378ee">Inter-process communication between C# and Python</a></li>
+<li>非常に単純明快に書かれており、すぐにでも出来そうに感じられる。</li>
+<li>Python側の動作がおよそどんなものになるのか、試してみたいところ。<ul>
+<li>matplotlibのグラフは問題なく出すことが出来るか？（別ウィンドウ、疎結合で可）</li>
+<li>C＃はGUIに閉じて、MVVM的な考え方で行きたいので、そもそも、そんなに確認事項が無い気がする。</li>
 </ul>
 </li>
 </ul>
-</li>
-</ol>
 </li>
 <li>
-<p>Do not worry so much about CORS.  </p>
+<p>No2</p>
 <ul>
-<li>
-<p>It will be working that Lambda function code includes below.  </p>
-<p><code>python
-return {
-    'statusCode' : 200,
-    'headers' : { 'Content-Type' : 'text/plain',
-    'Access-Control-Allow-Origin' : '*' },
-    'body' : result
-}</code>
-* <code>'Access-Control-Allow-Origin' : '*'</code> part allows all access.</p>
+<li><a href="https://kivantium.net/cpp-boost-python">Boost.PythonでC++からPythonの関数を呼び出す</a><ul>
+<li>No1同様に難しくは無さそう。</li>
+<li>Boost.Pythonが使いやすいものなのか？</li>
+</ul>
+</li>
+<li><a href="http://tadaoyamaoka.hatenablog.com/entry/2017/05/25/234934">PythonからC++を呼び出してnumpyを使う </a><ul>
+<li>逆の呼び出しパターンの記事</li>
+<li>やはり、<code>Boost.Python</code>を使うみたい。</li>
+</ul>
+</li>
+</ul>
 </li>
 <li>
-<p>There are articles for CORS, but for me, it is not necessary to success deploying.</p>
+<p>No3</p>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS Wiki</a></li>
-<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html">Enable CORS for an API Gateway REST API Resource</a><ul>
-<li>This is same included in sample Lambda function.</li>
+<li><a href="https://qiita.com/y-tsutsu/items/0c4561d6478be32e6f8e">Pythonから.NETを呼び出す方法とついでにその逆も</a><ul>
+<li>Python3.5までの動作らしいとの情報。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>Do not mix the issue to enable GPU on Notebook.</li>
+<li>No5<ul>
+<li><a href="https://medium.com/@ernest.bonat/using-c-to-call-python-restful-api-web-services-with-machine-learning-models-6d1af4b7787e">Using C# to call Python RESTful API Web Services with Machine Learning Models</a><ul>
+<li>Flaskを使って、PythonをWebAPI化すればよい様だ。</li>
+<li>直接関係ないような気もするものの、<code>Tensorflow Serving</code>とか<code>onnx runtime</code>とかも出てきている。</li>
+<li>必要になったら考えよう。</li>
 </ul>
 </li>
-</ol>
+</ul>
+</li>
+</ul>
 <hr>
-<h3>Reference</h3>
+<h2>検討２：GUIの観点では？</h2>
 <ul>
-<li><a href="https://docs.aws.amazon.com/sagemaker/latest/dg/CommonErrors.html">Common Errors on AWS</a></li>
+<li>
+<p>前提</p>
+<ul>
+<li>前提として C# or C++？で考えている。</li>
+<li>Pythonでは<code>Kivy</code>を多少触ってみた。少し触った感じではあるが、Windowsであれば、Visual Studioのデザイナーには敵わない気がする。</li>
+<li>C#はほとんどやったことないが、C++が書けるというほど使ってきたわけでもない。</li>
+</ul>
+</li>
+<li>
+<p>予定</p>
+<ul>
+<li>C#のGUIに対する期待感　&gt; C++　GUIの期待感。</li>
+<li>C++はC++/CLIを扱わなければいけないので厄介という記事があったり。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2>結論</h2>
+<ul>
+<li>No1のフレームワークで進めてみたい。<ul>
+<li>C#の勉強に。</li>
+<li>Deep Learning 検討用の、自前画像ビューアに。</li>
+</ul>
+</li>
+<li>（蛇足）OpenCVも使いたい。<ul>
+<li>C#だとOpenCVSharpなるラッパーを使うのが普通？ということに初めて気が付く。</li>
+<li>OpenCVSharpって何だろう、という漠然とした不安。（知らないだけ）</li>
+<li>こんな実装もありかな？　と勝手に想像して、C#選択のブロック要因とまでは考えないようにする。<ul>
+<li>GUI側で簡単に何かしたいとき、OpenCVSharpを使えば良い。</li>
+<li>本格的に処理をしたいとき、Python側でOpenCVを使い、結果をGUI側でビューすることでの連携はできそう。</li>
+<li>OpenCVSharpがデファクトだったりするのかもしれない。</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/aws-deploying-model.html" rel="bookmark"
+                           title="Permalink to AWS - Deploying Model">AWS - Deploying Model</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>月 15 7月 2019</span>
+
+</footer><!-- /.post-info -->                <p>The method of Deploying Model on AWS</p>
+                <a class="readmore" href="https://sassea34.github.io/aws-deploying-model.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -159,6 +228,7 @@ return {
                         <ul>
 
                             <li><a href="https://github.com/sassea34">GitHub</a></li>
+                            <li><a href="http://www.z-z.jp/?sassea34">Message board</a></li>
                         </ul>
                 </div><!-- /.social -->
         </section><!-- /#extras -->

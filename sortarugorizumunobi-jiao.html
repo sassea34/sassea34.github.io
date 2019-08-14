@@ -129,37 +129,29 @@
 <ol>
 <li>マルチライン入力<ul>
 <li>AIZU ONLINE JUDGEの例題を利用したため、マルチライン入力を受け付けるコードが必要となった。</li>
-<li>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。
-    <code>python
-    if __name__ == "__main__":
-        # input by multi-line
-        N = int(input())
-        A = [int(word) for word in input().split()]</code></li>
-</ul>
-</li>
-<li>アルファベット1文字＋数字1文字のデータの分解<ul>
-<li><code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。
-    <code>python
-    if __name__ == "__main__":
-        # input by multi-line
-        N = int(input())
-        A = [int(word) for word in input().split()]
-        B = [ [mark, num] for mark, num in list(A) ]</code></li>
-</ul>
-</li>
-<li>listの要素の置換<ul>
-<li>超基本ではあるけれど...
-    <code>python
-    A[i], A[j] = A[j], A[i]</code></li>
-</ul>
-</li>
-<li>listを空白区切りで出力<ul>
-<li>入力と同様の形式での標準出力
-    <code>python
-    print(" ".join(map(str, A)))</code>    </li>
-</ul>
-</li>
-</ol>
+<li>
+<p>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。</p>
+<p><code>python
+if __name__ == "__main__":
+    # input by multi-line
+    N = int(input())
+    A = [int(word) for word in input().split()]</code>
+1. アルファベット1文字＋数字1文字のデータの分解
+    * <code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。</p>
+<p><code>python
+if __name__ == "__main__":
+    # input by multi-line
+    N = int(input())
+    A = [int(word) for word in input().split()]
+    B = [ [mark, num] for mark, num in list(A) ]</code>
+1. listの要素の置換
+    * 超基本ではあるけれど...</p>
+<p><code>python
+A[i], A[j] = A[j], A[i]</code>
+1. listを空白区切りで出力
+    * 入力と同様の形式での標準出力</p>
+<p><code>python
+print(" ".join(map(str, A)))</code>    </p>
 <hr>
 <h2>まとめ</h2>
 <h3>学習したこと</h3>
@@ -167,6 +159,10 @@
 <li>書籍に従い、4つのアルゴリズムを整理することは出来た。</li>
 <li>扱った中ではShell Sortが、オーダーが良いので使えると良いか？（多分、まだメリットデメリットが分かっていないかも）</li>
 <li>プログラミングに慣れる意味では、ソートアルゴリズムは良いかもしれないし、真にはもっと深いらしい。</li>
+</ol>
+</li>
+</ul>
+</li>
 </ol>
 <h3>残課題</h3>
 <ul>

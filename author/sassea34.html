@@ -14,6 +14,7 @@
         <header id="banner" class="body">
                 <h1><a href="https://sassea34.github.io/">sassea34's blog </a></h1>
                 <nav><ul>
+                    <li><a href="https://sassea34.github.io/category/algorithm.html">Algorithm</a></li>
                     <li><a href="https://sassea34.github.io/category/deep-learning.html">Deep Learning</a></li>
                 </ul>
                 </nav>
@@ -21,157 +22,216 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html">PythonをC#/C++どちらから呼び出すのが良いか？</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/sortarugorizumunobi-jiao.html">Sortアルゴリズムの比較</a></h1>
 <footer class="post-info">
-        <span>金 02 8月 2019</span>
+        <span>水 14 8月 2019</span>
 
-</footer><!-- /.post-info --><h1>PythonをC#/C++どちらから呼び出すのが良いか？</h1>
-<h2>背景</h2>
+</footer><!-- /.post-info --><h1>Sortアルゴリズムの勉強</h1>
+<h2>目的</h2>
 <ul>
-<li>Deep Learningで Pythonを利用しながら、GUIはWindows Visual Studioで簡単にデザインしたい。<ul>
-<li>使い方としては特に画像の扱い。画像セットとアノテーション情報をGUIで分析確認する等の使い方も想定したい。</li>
+<li>Sortアルゴリズムを改めて勉強する。<ul>
+<li>参考書籍「プログラミングコンテスト攻略のためのアルゴリズムとデータ構造」</li>
 </ul>
 </li>
-<li>ゆくゆくはDeep LearningのDeploy寄りのツールとして。<ul>
-<li>Pythonコードの推論部だけをC++等で記述して、Deployを効果的に行えるようなSoftware構成を検討したい。</li>
-</ul>
-</li>
-<li>Deep Learningやコーディングを勉強中であり、調査しながら良い形を模索したい。</li>
+<li>一覧化／およびPythonでコーディングして知識整理を行い、再コーディング時に自走出来るようにする。</li>
 </ul>
 <hr>
-<h2>検討１：Python環境の呼び出しやすさの観点では？</h2>
+<h2>アルゴリズム一覧</h2>
 <table>
 <thead>
 <tr>
 <th align="right">No</th>
-<th>GUI構築</th>
-<th>Python呼び出し方法</th>
-<th>Note</th>
+<th>アルゴリズム</th>
+<th>方法</th>
+<th>特徴</th>
+<th>ソート完了タイミング</th>
+<th>外ループ i の方向性</th>
+<th>内ループ j の方向性</th>
+<th>オーダー</th>
+<th>安定か？</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="right">1</td>
-<td>C#</td>
-<td>追加ライブラリ無しでOKの模様</td>
-<td>Microsoftの例としてAnaconda環境。その他のPython環境も使えるらしい。</td>
+<td>Insertion Sort</td>
+<td>注目セルの代入箇所を確認し、トランプを先頭から並べるかのように挿入していく。</td>
+<td>ある程度整列されたデータに対しては高速<br>(比較演算がデータ依存)<hr>操作済みの部分に絞ってはソート済みの状態が出来る。</td>
+<td>最後</td>
+<td _leqq="\leqq">左から右（正順）<hr>$1</td>
+<td _geqq="\geqq">iを保存、i-1から左へ。（挿入箇所を探索して入れ替え）<hr>$i-1</td>
+<td>$O(n^2)$</td>
+<td>安定</td>
 </tr>
 <tr>
 <td align="right">2</td>
-<td>C++</td>
-<td>Boost.Pythonが必要？</td>
-<td>No1とやれることは似通っているようにみえる。PythonからC++（逆方向）もできる。</td>
+<td>Bubble Sort</td>
+<td>未整列の残り部分の末端から先頭へ、隣同士の２つのセルを比較し、小値であれば２つを交換していく。</td>
+<td>交換回数は反転数、転倒数と呼ばれ、列の乱れの具合を表す。</td>
+<td>先頭から確定</td>
+<td _geqq="\geqq">右から左（逆順）<hr>$N-1</td>
+<td>内ループ無し</td>
+<td>$O(n^2)$</td>
+<td>安定</td>
 </tr>
 <tr>
 <td align="right">3</td>
-<td>C#(.net)</td>
-<td>pythonnet</td>
-<td>Python3.5までの対応の模様。</td>
+<td>Selection Sort</td>
+<td>最小のセルを抽出しながら、先頭と置き換えていく。</td>
+<td>離れた対象を比較、入れ替えるため安定ではない</td>
+<td>先頭から確定</td>
+<td _leqq="\leqq">左から右（正順）<hr>$0</td>
+<td _leqq="\leqq">左から右（正順）<hr>$i+1</td>
+<td>$O(n^2)$</td>
+<td>安定では無い</td>
 </tr>
 <tr>
 <td align="right">4</td>
-<td>C#</td>
-<td>IronPython</td>
-<td>IronPythonは動かないという情報が多い。</td>
-</tr>
-<tr>
-<td align="right">5</td>
-<td>任意</td>
-<td>PythonをWebAPI化(Flask?)</td>
-<td>引数→出力　以上の連携が楽になる。サーバーを別立てした構成が立てやすくなるはず。</td>
+<td>Shell Sort</td>
+<td>対象の数列をある数値間隔 $g$ で飛ばした数列とみなして、Insertion Sortをラフに行う。<br>上記をInsertion Sortの上位ループとして繰り返すことで、全体としての計算量を抑制するやり方。</td>
+<td n_1="n+1">gの与え方はm段階だと（任意に）設定する。<br>例えば段階の数$m=3$のとき、$G_i={13,4,1}$のように$g_</td>
+<td>最後</td>
+<td>Insertion Sortを $g$ 拡張し、上位ループを左記の$G_i$により回す。</td>
+<td>略（内部ループとしてはInsertion Sortとも位置付けられるか）</td>
+<td 1.25>$O(n^</td>
+<td>安定では無い<hr>未検証。予想として間隔$g$で飛ばしたソートを含むため。</td>
 </tr>
 </tbody>
 </table>
+<h3>No4 Shell Sortについて</h3>
 <ul>
-<li>
-<p>No1　<font color="red">現状の結論としてはこれをやってみたい。</font></p>
-<ul>
-<li><a href="https://code.msdn.microsoft.com/windowsdesktop/C-and-Python-interprocess-171378ee">Inter-process communication between C# and Python</a></li>
-<li>非常に単純明快に書かれており、すぐにでも出来そうに感じられる。</li>
-<li>Python側の動作がおよそどんなものになるのか、試してみたいところ。<ul>
-<li>matplotlibのグラフは問題なく出すことが出来るか？（別ウィンドウ、疎結合で可）</li>
-<li>C＃はGUIに閉じて、MVVM的な考え方で行きたいので、そもそも、そんなに確認事項が無い気がする。</li>
+<li>これだけ考え方が難しいが、きっと以下の考え方で合っている？！<ol>
+<li><code>対象の数列をある数値間隔 g で飛ばした数列とみなして</code>の部分は、Insertion Sortの内部における、外ループ i（No1を参照）のそれぞれのiの界が独立だと考えられる。<ul>
+<li>究極はここをマルチスレッド化しても良い？</li>
+</ul>
+</li>
+<li>よって、Insertion Sortの<code>ある程度整列されたデータに対しては高速</code>である特性を活かすために、以下を変数とする知見が必要になるのでは無いか？<ul>
+<li>どれだけ大きな数列に対し</li>
+<li>どれだけラフに上記表中の $G_i={13,4,1}$ を設定するか（もちろん$m$もいくつに設定するか）<ul>
+<li>$g_{n+1}=3*g_n+1$ の <code>+1</code>がきっと重要（＝ずらす意味が）あるのだろう。<ul>
+<li>$g_{n+1}=3*g_n+1$ の導出に関しては、今はこれ以上は疑問を持たないこととする。</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>No2</p>
-<ul>
-<li><a href="https://kivantium.net/cpp-boost-python">Boost.PythonでC++からPythonの関数を呼び出す</a><ul>
-<li>No1同様に難しくは無さそう。</li>
-<li>Boost.Pythonが使いやすいものなのか？</li>
 </ul>
 </li>
-<li><a href="http://tadaoyamaoka.hatenablog.com/entry/2017/05/25/234934">PythonからC++を呼び出してnumpyを使う </a><ul>
-<li>逆の呼び出しパターンの記事</li>
-<li>やはり、<code>Boost.Python</code>を使うみたい。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>No3</p>
-<ul>
-<li><a href="https://qiita.com/y-tsutsu/items/0c4561d6478be32e6f8e">Pythonから.NETを呼び出す方法とついでにその逆も</a><ul>
-<li>Python3.5までの動作らしいとの情報。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>No5<ul>
-<li><a href="https://medium.com/@ernest.bonat/using-c-to-call-python-restful-api-web-services-with-machine-learning-models-6d1af4b7787e">Using C# to call Python RESTful API Web Services with Machine Learning Models</a><ul>
-<li>Flaskを使って、PythonをWebAPI化すればよい様だ。</li>
-<li>直接関係ないような気もするものの、<code>Tensorflow Serving</code>とか<code>onnx runtime</code>とかも出てきている。</li>
-<li>必要になったら考えよう。</li>
-</ul>
-</li>
-</ul>
+</ol>
 </li>
 </ul>
 <hr>
-<h2>検討２：GUIの観点では？</h2>
-<ul>
-<li>
-<p>前提</p>
-<ul>
-<li>前提として C# or C++？で考えている。</li>
-<li>Pythonでは<code>Kivy</code>を多少触ってみた。少し触った感じではあるが、Windowsであれば、Visual Studioのデザイナーには敵わない気がする。</li>
-<li>C#はほとんどやったことないが、C++が書けるというほど使ってきたわけでもない。</li>
+<h2>Python Coding Tips</h2>
+<ol>
+<li>マルチライン入力<ul>
+<li>AIZU ONLINE JUDGEの例題を利用したため、マルチライン入力を受け付けるコードが必要となった。</li>
+<li>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。
+    <code>python
+    if __name__ == "__main__":
+        # input by multi-line
+        N = int(input())
+        A = [int(word) for word in input().split()]</code></li>
 </ul>
 </li>
-<li>
-<p>予定</p>
-<ul>
-<li>C#のGUIに対する期待感　&gt; C++　GUIの期待感。</li>
-<li>C++はC++/CLIを扱わなければいけないので厄介という記事があったり。</li>
+<li>アルファベット1文字＋数字1文字のデータの分解<ul>
+<li><code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。
+    <code>python
+    if __name__ == "__main__":
+        # input by multi-line
+        N = int(input())
+        A = [int(word) for word in input().split()]
+        B = [ [mark, num] for mark, num in list(A) ]</code></li>
 </ul>
 </li>
+<li>listの要素の置換<ul>
+<li>超基本ではあるけれど...
+    <code>python
+    A[i], A[j] = A[j], A[i]</code></li>
 </ul>
+</li>
+<li>listを空白区切りで出力<ul>
+<li>入力と同様の形式での標準出力
+    <code>python
+    print(" ".join(map(str, A)))</code>    </li>
+</ul>
+</li>
+</ol>
 <hr>
-<h2>結論</h2>
+<h2>まとめ</h2>
+<h3>学習したこと</h3>
+<ol>
+<li>書籍に従い、4つのアルゴリズムを整理することは出来た。</li>
+<li>扱った中ではShell Sortが、オーダーが良いので使えると良いか？（多分、まだメリットデメリットが分かっていないかも）</li>
+<li>プログラミングに慣れる意味では、ソートアルゴリズムは良いかもしれないし、真にはもっと深いらしい。</li>
+</ol>
+<h3>残課題</h3>
 <ul>
-<li>No1のフレームワークで進めてみたい。<ul>
-<li>C#の勉強に。</li>
-<li>Deep Learning 検討用の、自前画像ビューアに。</li>
+<li>WiKi参考に、まだ独自実装できていないソート。</li>
+<li>うち赤字は何となく手を出したい気がするもの。<ul>
+<li>交換<ul>
+<li>シェーカーソート</li>
+<li>コムソート</li>
+<li>ノームソート</li>
+<li>奇遇転置ソート</li>
+<li>シェアソート</li>
 </ul>
 </li>
-<li>（蛇足）OpenCVも使いたい。<ul>
-<li>C#だとOpenCVSharpなるラッパーを使うのが普通？ということに初めて気が付く。</li>
-<li>OpenCVSharpって何だろう、という漠然とした不安。（知らないだけ）</li>
-<li>こんな実装もありかな？　と勝手に想像して、C#選択のブロック要因とまでは考えないようにする。<ul>
-<li>GUI側で簡単に何かしたいとき、OpenCVSharpを使えば良い。</li>
-<li>本格的に処理をしたいとき、Python側でOpenCVを使い、結果をGUI側でビューすることでの連携はできそう。</li>
-<li>OpenCVSharpがデファクトだったりするのかもしれない。</li>
+<li>挿入<ul>
+<li>２分木ソート（平衡２分探索木）</li>
+<li>図書館ソート</li>
+<li>ペイシェンスソート</li>
+</ul>
+</li>
+<li>マージ<ul>
+<li><font color="red">マージソート</font><ul>
+<li>分解と併合によるもの。</li>
+</ul>
+</li>
+<li>In-placeマージソート</li>
+</ul>
+</li>
+<li>選択<ul>
+<li><font color="red">ヒープソート</font><ul>
+<li>二分木を使う。</li>
+</ul>
+</li>
+<li>スムースソート</li>
+<li>ストランドソート</li>
+</ul>
+</li>
+<li>パーティショニング<ul>
+<li><font color="red">クイックソート</font><ul>
+<li>ピボットで分割、中央値等の工夫。</li>
 </ul>
 </li>
 </ul>
 </li>
-</ul>                </article>
+<li>混成<ul>
+<li>イントロソート</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>以上</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html" rel="bookmark"
+                           title="Permalink to PythonをC#/C++どちらから呼び出すのが良いか？">PythonをC#/C++どちらから呼び出すのが良いか？</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>金 02 8月 2019</span>
+
+</footer><!-- /.post-info -->                <p>C#で進めていく。RestFul　APIまで欲しくなったら、PythonをWebAPI化する。</p>
+                <a class="readmore" href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

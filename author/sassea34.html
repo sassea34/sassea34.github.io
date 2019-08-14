@@ -124,29 +124,51 @@
 <ol>
 <li>マルチライン入力<ul>
 <li>AIZU ONLINE JUDGEの例題を利用したため、マルチライン入力を受け付けるコードが必要となった。</li>
-<li>
-<p>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。</p>
-<p><code>python
-if __name__ == "__main__":
-    # input by multi-line
-    N = int(input())
-    A = [int(word) for word in input().split()]</code>
-1. アルファベット1文字＋数字1文字のデータの分解
-    * <code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。</p>
-<p><code>python
-if __name__ == "__main__":
-    # input by multi-line
-    N = int(input())
-    A = [int(word) for word in input().split()]
-    B = [ [mark, num] for mark, num in list(A) ]</code>
-1. listの要素の置換
-    * 超基本ではあるけれど...</p>
-<p><code>python
-A[i], A[j] = A[j], A[i]</code>
-1. listを空白区切りで出力
-    * 入力と同様の形式での標準出力</p>
-<p><code>python
-print(" ".join(map(str, A)))</code>    </p>
+<li>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># input by multi-line</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+</pre></div>
+
+
+<ol>
+<li>アルファベット1文字＋数字1文字のデータの分解<ul>
+<li><code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="c1"># input by multi-line</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">mark</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span> <span class="k">for</span> <span class="n">mark</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="p">]</span>
+</pre></div>
+
+
+<ol>
+<li>listの要素の置換<ul>
+<li>超基本ではあるけれど...</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+
+
+<ol>
+<li>listを空白区切りで出力<ul>
+<li>入力と同様の形式での標準出力</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">A</span><span class="p">)))</span>
+</pre></div>
+
+
 <hr>
 <h2>まとめ</h2>
 <h3>学習したこと</h3>
@@ -154,10 +176,6 @@ print(" ".join(map(str, A)))</code>    </p>
 <li>書籍に従い、4つのアルゴリズムを整理することは出来た。</li>
 <li>扱った中ではShell Sortが、オーダーが良いので使えると良いか？（多分、まだメリットデメリットが分かっていないかも）</li>
 <li>プログラミングに慣れる意味では、ソートアルゴリズムは良いかもしれないし、真にはもっと深いらしい。</li>
-</ol>
-</li>
-</ul>
-</li>
 </ol>
 <h3>残課題</h3>
 <ul>

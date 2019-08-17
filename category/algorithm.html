@@ -22,94 +22,81 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/sortarugorizumunobi-jiao.html">Sortアルゴリズムの比較</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/detagou-zao.html">データ構造</a></h1>
 <footer class="post-info">
-        <span>水 14 8月 2019</span>
+        <span>土 17 8月 2019</span>
 
-</footer><!-- /.post-info --><h1>Sortアルゴリズムの勉強</h1>
-<h2>目的</h2>
+</footer><!-- /.post-info --><h1>データ構造の勉強</h1>
+<h2>背景</h2>
 <ul>
-<li>Sortアルゴリズムを改めて勉強する。<ul>
+<li>
+<p>目的</p>
+<ul>
+<li>データ構造を改めて勉強する。</li>
+<li>Pythonでコーディングして知識整理を行い、再コーディング時に自走出来るようにする。</li>
+</ul>
+</li>
+<li>
+<p>参考</p>
+<ul>
 <li>参考書籍「プログラミングコンテスト攻略のためのアルゴリズムとデータ構造」</li>
 </ul>
 </li>
-<li>一覧化／およびPythonでコーディングして知識整理を行い、再コーディング時に自走出来るようにする。</li>
 </ul>
 <hr>
-<h2>アルゴリズム一覧</h2>
-<table>
-<thead>
-<tr>
-<th align="right">No</th>
-<th>アルゴリズム</th>
-<th>方法</th>
-<th>特徴</th>
-<th>ソート完了タイミング</th>
-<th>外ループ i の方向性</th>
-<th>内ループ j の方向性</th>
-<th>オーダー</th>
-<th>安定か？</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="right">1</td>
-<td>Insertion Sort</td>
-<td>注目セルの代入箇所を確認し、トランプを先頭から並べるかのように挿入していく。</td>
-<td>ある程度整列されたデータに対しては高速<br>(比較演算がデータ依存)<hr>操作済みの部分に絞ってはソート済みの状態が出来る。</td>
-<td>最後</td>
-<td>左から右（正順）<hr><span class="math">\(1{\leqq}i{\leqq}N-1\)</span><br><span class="math">\(i++\)</span></td>
-<td>iを保存、i-1から左へ。（挿入箇所を探索して入れ替え）<hr><span class="math">\(i-1{\geqq}j{\geqq}0\)</span><br><span class="math">\(j--\)</span></td>
-<td><span class="math">\(O(n^2)\)</span></td>
-<td>安定</td>
-</tr>
-<tr>
-<td align="right">2</td>
-<td>Bubble Sort</td>
-<td>未整列の残り部分の末端から先頭へ、隣同士の２つのセルを比較し、小値であれば２つを交換していく。</td>
-<td>交換回数は反転数、転倒数と呼ばれ、列の乱れの具合を表す。</td>
-<td>先頭から確定</td>
-<td>右から左（逆順）<hr><span class="math">\(N-1{\geqq}i{\geqq}1\)</span><br>increment無し</td>
-<td>内ループ無し</td>
-<td><span class="math">\(O(n^2)\)</span></td>
-<td>安定</td>
-</tr>
-<tr>
-<td align="right">3</td>
-<td>Selection Sort</td>
-<td>最小のセルを抽出しながら、先頭と置き換えていく。</td>
-<td>離れた対象を比較、入れ替えるため安定ではない</td>
-<td>先頭から確定</td>
-<td>左から右（正順）<hr><span class="math">\(0{\leqq}i{\leqq}N-1\)</span><br><span class="math">\(i++\)</span></td>
-<td>左から右（正順）<hr><span class="math">\(i+1{\leqq}j{\leqq}N-1\)</span><br><span class="math">\(j++\)</span></td>
-<td><span class="math">\(O(n^2)\)</span></td>
-<td>安定では無い</td>
-</tr>
-<tr>
-<td align="right">4</td>
-<td>Shell Sort</td>
-<td>対象の数列をある数値間隔 <span class="math">\(g\)</span> で飛ばした数列とみなして、Insertion Sortをラフに行う。<br>上記をInsertion Sortの上位ループとして繰り返すことで、全体としての計算量を抑制するやり方。</td>
-<td>gの与え方はm段階だと（任意に）設定する。<br>例えば段階の数<span class="math">\(m=3\)</span>のとき、<span class="math">\(G_i=\{13,4,1\}\)</span>のように<span class="math">\(g_{n+1}=3*g_n+1\)</span>として与える。最後の<span class="math">\(G_{m-1}\)</span>は必ず1である必要がある。<br>この与え方で、オーダーが<span class="math">\(O(n^{1.25})\)</span>になることが予測されている。</td>
-<td>最後</td>
-<td>Insertion Sortを <span class="math">\(g\)</span> 拡張し、上位ループを左記の<span class="math">\(G_i\)</span>により回す。</td>
-<td>略（内部ループとしてはInsertion Sortとも位置付けられるか）</td>
-<td><span class="math">\(O(n^{1.25})\)</span></td>
-<td>安定では無い<hr>未検証。予想として間隔<span class="math">\(g\)</span>で飛ばしたソートを含むため。</td>
-</tr>
-</tbody>
-</table>
-<h3>No4 Shell Sortについて</h3>
+<h2>データ構造</h2>
+<ol>
+<li>Stack</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="nb">buffer</span> <span class="o">=</span> <span class="p">[]</span><span class="c1">#init</span>
+<span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#append（末尾）</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nb">buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span><span class="c1">#pop（末尾）</span>
+</pre></div>
+
+
+<ol>
+<li>Queue<ul>
+<li>専用の<code>queue</code>モジュールが存在するが、<ul>
+<li><code>list</code>のみで実装が可能。</li>
+<li>アルゴリズム上位というか、概要確認が目的のため今回は使わない。</li>
+<li>マルチスレッド処理などが良いようだ（？）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="nb">buffer</span> <span class="o">=</span> <span class="p">[]</span><span class="c1">#init</span>
+<span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#append（末尾）</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nb">buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="c1">#pop（先頭）</span>
+</pre></div>
+
+
+<ol>
+<li>
+<p>双方向連結リスト</p>
 <ul>
-<li>これだけ考え方が難しいが、きっと以下の考え方で合っている？！<ol>
-<li><code>対象の数列をある数値間隔 g で飛ばした数列とみなして</code>の部分は、Insertion Sortの内部における、外ループ i（No1を参照）のそれぞれのiの界が独立だと考えられる。<ul>
-<li>究極はここをマルチスレッド化しても良い？</li>
+<li>
+<p>Pythonで書くのは重いということが起きそうな気がしているがPythonでやってみた。</p>
+<ul>
+<li>ALDS1_3_Cの処理時間制限でアウトの状態。</li>
+<li>
+<p>ポインタのつなぎ方、Gurdianなどが復習できた。</p>
+</li>
+<li>
+<p>性能問題ありだが、動作はする状態。</p>
+<ul>
+<li>無限ループ <code>while</code>よりも<code>for</code>が良いという情報あり、やってみたが、課題クリアに至らず。</li>
+<li>データコンテナに独自クラスを利用していることが最大の問題ではないかと推測。</li>
 </ul>
 </li>
-<li>よって、Insertion Sortの<code>ある程度整列されたデータに対しては高速</code>である特性を活かすために、以下を変数とする知見が必要になるのでは無いか？<ul>
-<li>どれだけ大きな数列に対し</li>
-<li>どれだけラフに上記表中の <span class="math">\(G_i=\{13,4,1\}\)</span> を設定するか（もちろん<span class="math">\(m\)</span>もいくつに設定するか）<ul>
-<li><span class="math">\(g_{n+1}=3*g_n+1\)</span> の <code>+1</code>がきっと重要（＝ずらす意味が）あるのだろう。<ul>
-<li><span class="math">\(g_{n+1}=3*g_n+1\)</span> の導出に関しては、今はこれ以上は疑問を持たないこととする。</li>
+</ul>
+</li>
+<li>
+<p>高速化について考察</p>
+<ul>
+<li>TOPのソースを見ると、<code>from collections import deque</code>を使っている。<ul>
+<li>コードも超シンプル・・。これが競技プログラミングの世界か。</li>
+<li>何か悔しいが、使えるものが見えたので、ここまで。</li>
 </ul>
 </li>
 </ul>
@@ -117,183 +104,60 @@
 </ul>
 </li>
 </ol>
-</li>
-</ul>
 <hr>
-<h2>Python Coding Tips</h2>
+<h2>Python Tips</h2>
 <ol>
-<li>マルチライン入力<ul>
-<li>AIZU ONLINE JUDGEの例題を利用したため、マルチライン入力を受け付けるコードが必要となった。</li>
-<li>以下で、1行目に数列の数、2行目に数列を空白区切りで入力して受け付ける。</li>
+<li>取り出した値（str型）が数字かどうかの判定<ul>
+<li>逆ポーランド記法をStackで解く場合に必要になった。</li>
 </ul>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># input by multi-line</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+<div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span><span class="c1"># return True/False</span>
 </pre></div>
 
 
 <ol>
-<li>アルファベット1文字＋数字1文字のデータの分解<ul>
-<li><code>H9</code>などを2次元のlistで扱うコード。dictionaryよりlistで扱ったほうが入れ替えが出来て楽。</li>
-</ul>
-</li>
+<li>StackやQueueで実装していると、不要なところもStack/Queueで実装してしまっていることがある。適切に必要な実装を心がける。</li>
 </ol>
-<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># input by multi-line</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
-    <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-    <span class="n">B</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">mark</span><span class="p">,</span> <span class="n">num</span><span class="p">]</span> <span class="k">for</span> <span class="n">mark</span><span class="p">,</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> <span class="p">]</span>
-</pre></div>
-
-
-<ol>
-<li>listの要素の置換<ul>
-<li>超基本ではあるけれど...</li>
-</ul>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-</pre></div>
-
-
-<ol>
-<li>listを空白区切りで出力<ul>
-<li>入力と同様の形式での標準出力</li>
-</ul>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">A</span><span class="p">)))</span>
-</pre></div>
-
-
 <hr>
 <h2>まとめ</h2>
 <h3>学習したこと</h3>
-<ol>
-<li>書籍に従い、4つのアルゴリズムを整理することは出来た。</li>
-<li>扱った中ではShell Sortが、オーダーが良いので使えると良いか？（多分、まだメリットデメリットが分かっていないかも）</li>
-<li>プログラミングに慣れる意味では、ソートアルゴリズムは良いかもしれないし、真にはもっと深いらしい。</li>
-</ol>
+<ul>
+<li>stack, queue, 双方向連結リストのロジックを再確認した。</li>
+<li>双方向連結リストに関して、pythonでは<code>collections.deque</code>を使えば良い。</li>
+</ul>
 <h3>残課題</h3>
 <ul>
-<li>WiKi参考に、まだ独自実装できていないソート。</li>
-<li>うち赤字は何となく手を出したい気がするもの。<ul>
-<li>交換<ul>
-<li>シェーカーソート</li>
-<li>コムソート</li>
-<li>ノームソート</li>
-<li>奇遇転置ソート</li>
-<li>シェアソート</li>
+<li>pythonの<code>list</code>による、双方向連結リストの独自実装の改良。<ul>
+<li>ただ、<code>collections.deque</code>があるので現状はそれを知るに留めておく。</li>
 </ul>
 </li>
-<li>挿入<ul>
-<li>２分木ソート（平衡２分探索木）</li>
-<li>図書館ソート</li>
-<li>ペイシェンスソート</li>
+<li>pythonの<code>list</code>型の各メソッドの計算量の確認とか、最適なロジックの検討。</li>
 </ul>
-</li>
-<li>マージ<ul>
-<li><font color="red">マージソート</font><ul>
-<li>分解と併合によるもの。</li>
-</ul>
-</li>
-<li>In-placeマージソート</li>
-</ul>
-</li>
-<li>選択<ul>
-<li><font color="red">ヒープソート</font><ul>
-<li>二分木を使う。</li>
-</ul>
-</li>
-<li>スムースソート</li>
-<li>ストランドソート</li>
-</ul>
-</li>
-<li>パーティショニング<ul>
-<li><font color="red">クイックソート</font><ul>
-<li>ピボットで分割、中央値等の工夫。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>混成<ul>
-<li>イントロソート</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>以上</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
+<p>以上</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <ol id="posts-list" class="hfeed">
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/sortarugorizumunobi-jiao.html" rel="bookmark"
+                           title="Permalink to Sortアルゴリズムの比較">Sortアルゴリズムの比較</a></h1>
+                </header>
 
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+                <div class="entry-content">
+<footer class="post-info">
+        <span>水 14 8月 2019</span>
 
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>                </article>
+</footer><!-- /.post-info -->                <p>Insertion / BUbble / Selection / Shellの４アルゴリズムまでpythonにて確認完了。</p>
+                <a class="readmore" href="https://sassea34.github.io/sortarugorizumunobi-jiao.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+            </ol><!-- /#posts-list -->
 <p class="paginator">
     Page 1 / 1
 </p>
-            </aside><!-- /#featured -->
-            </ol><!-- /#posts-list -->
             </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="social">

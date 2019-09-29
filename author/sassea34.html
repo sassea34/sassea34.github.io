@@ -16,129 +16,50 @@
                 <nav><ul>
                     <li><a href="https://sassea34.github.io/category/algorithm.html">Algorithm</a></li>
                     <li><a href="https://sassea34.github.io/category/deep-learning.html">Deep Learning</a></li>
+                    <li><a href="https://sassea34.github.io/category/game-make.html">Game Make</a></li>
                 </ul>
                 </nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/detagou-zao.html">データ構造</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/ai_versus.html">ai_versus</a></h1>
 <footer class="post-info">
-        <span>土 17 8月 2019</span>
+        <span>月 30 9月 2019</span>
 
-</footer><!-- /.post-info --><h1>データ構造の勉強</h1>
-<h2>背景</h2>
+</footer><!-- /.post-info --><h1>ai_versus</h1>
+<h2>Background</h2>
 <ul>
-<li>
-<p>目的</p>
-<ul>
-<li>データ構造を改めて勉強する。</li>
-<li>Pythonでコーディングして知識整理を行い、再コーディング時に自走出来るようにする。</li>
-</ul>
-</li>
-<li>
-<p>参考</p>
-<ul>
-<li>参考書籍「プログラミングコンテスト攻略のためのアルゴリズムとデータ構造」</li>
+<li>Goal<ul>
+<li>I want to make AI on my handy-made game.</li>
 </ul>
 </li>
 </ul>
 <hr>
-<h2>データ構造</h2>
-<ol>
-<li>Stack</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="nb">buffer</span> <span class="o">=</span> <span class="p">[]</span><span class="c1">#init</span>
-<span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#append（末尾）</span>
-<span class="n">y</span> <span class="o">=</span> <span class="nb">buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span><span class="c1">#pop（末尾）</span>
-</pre></div>
-
-
-<ol>
-<li>Queue<ul>
-<li>専用の<code>queue</code>モジュールが存在するが、<ul>
-<li><code>list</code>のみで実装が可能。</li>
-<li>アルゴリズム上位というか、概要確認が目的のため今回は使わない。</li>
-<li>マルチスレッド処理などが良いようだ（？）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="nb">buffer</span> <span class="o">=</span> <span class="p">[]</span><span class="c1">#init</span>
-<span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="c1">#append（末尾）</span>
-<span class="n">y</span> <span class="o">=</span> <span class="nb">buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="c1">#pop（先頭）</span>
-</pre></div>
-
-
-<ol>
-<li>
-<p>双方向連結リスト</p>
+<h2>Current status</h2>
 <ul>
-<li>
-<p>Pythonで書くのは重いということが起きそうな気がしているがPythonでやってみた。</p>
-<ul>
-<li>ALDS1_3_Cの処理時間制限でアウトの状態。</li>
-<li>
-<p>ポインタのつなぎ方、Gurdianなどが復習できた。</p>
-</li>
-<li>
-<p>性能問題ありだが、動作はする状態。</p>
-<ul>
-<li>無限ループ <code>while</code>よりも<code>for</code>が良いという情報あり、やってみたが、課題クリアに至らず。</li>
-<li>データコンテナに独自クラスを利用していることが最大の問題ではないかと推測。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>高速化について考察</p>
-<ul>
-<li>TOPのソースを見ると、<code>from collections import deque</code>を使っている。<ul>
-<li>コードも超シンプル・・。これが競技プログラミングの世界か。</li>
-<li>何か悔しいが、使えるものが見えたので、ここまで。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2>Python Tips</h2>
-<ol>
-<li>取り出した値（str型）が数字かどうかの判定<ul>
-<li>逆ポーランド記法をStackで解く場合に必要になった。</li>
-</ul>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span><span class="c1"># return True/False</span>
-</pre></div>
-
-
-<ol>
-<li>StackやQueueで実装していると、不要なところもStack/Queueで実装してしまっていることがある。適切に必要な実装を心がける。</li>
-</ol>
-<hr>
-<h2>まとめ</h2>
-<h3>学習したこと</h3>
-<ul>
-<li>stack, queue, 双方向連結リストのロジックを再確認した。</li>
-<li>双方向連結リストに関して、pythonでは<code>collections.deque</code>を使えば良い。</li>
-</ul>
-<h3>残課題</h3>
-<ul>
-<li>pythonの<code>list</code>による、双方向連結リストの独自実装の改良。<ul>
-<li>ただ、<code>collections.deque</code>があるので現状はそれを知るに留めておく。</li>
-</ul>
-</li>
-<li>pythonの<code>list</code>型の各メソッドの計算量の確認とか、最適なロジックの検討。</li>
-</ul>
-<p>以上</p>                </article>
+<li>Game Screen
+    <video src="./assets/ai_versus_20190930.mp4" width="800" height="430" controls></video></li>
+</ul>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/detagou-zao.html" rel="bookmark"
+                           title="Permalink to データ構造">データ構造</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>土 17 8月 2019</span>
+
+</footer><!-- /.post-info -->                <p>pythonで Stack/Queue/双方向連結リストの実装を確認した。</p>
+                <a class="readmore" href="https://sassea34.github.io/detagou-zao.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

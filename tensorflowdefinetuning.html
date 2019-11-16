@@ -74,7 +74,7 @@
 <ul>
 <li>
 <p>該当箇所</p>
-<p>```
+<p>```<br>
 from keras.utils.visualize_util import plot</p>
 <h1>from keras.utils.vis_utils import plot</h1>
 <p>```</p>
@@ -149,7 +149,7 @@ loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples
 <ul>
 <li>
 <p>確認１：プログラム中でfreezeしている層を確認。</p>
-<p>```</p>
+<p>```  </p>
 <h1>最後のconv層の直前までの層をfreeze</h1>
 <p>for layer in model.layers[:15]:
     layer.trainable = False
@@ -157,7 +157,7 @@ loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples
 </li>
 <li>
 <p>確認２：VGG16と全結合層を結合した学習用のモデルを出力。</p>
-<p>```</p>
+<p>```  </p>
 <hr>
 <h1>Layer (type)                 Output Shape              Param #</h1>
 <p>input_1 (InputLayer)         (None, 150, 150, 3)       0</p>

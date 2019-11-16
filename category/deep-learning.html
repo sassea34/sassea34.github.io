@@ -24,157 +24,281 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html">PythonをC#/C++どちらから呼び出すのが良いか？</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/tensorflowdefinetuning.html">tensorflowでFineTuning</a></h1>
 <footer class="post-info">
-        <span>金 02 8月 2019</span>
+        <span>土 16 11月 2019</span>
 
-</footer><!-- /.post-info --><h1>PythonをC#/C++どちらから呼び出すのが良いか？</h1>
-<h2>背景</h2>
+</footer><!-- /.post-info --><h1>tensorflowでFineTuning</h1>
+<h2>１．背景</h2>
 <ul>
-<li>Deep Learningで Pythonを利用しながら、GUIはWindows Visual Studioで簡単にデザインしたい。<ul>
-<li>使い方としては特に画像の扱い。画像セットとアノテーション情報をGUIで分析確認する等の使い方も想定したい。</li>
+<li>tensorflowにまだまだ慣れていないが、FineTuningを行う必要が出てきました。<ul>
+<li>本番で活用する前に、tensorflowでFineTuningを行う際の自己学習メモとして記録。</li>
+<li>先人のやり方を最大限／時短で吸収したい。</li>
+<li>実PJで使う際に必要になりそうな要素を勉強する。（どうやってデータを配置すべきか等）</li>
 </ul>
 </li>
-<li>ゆくゆくはDeep LearningのDeploy寄りのツールとして。<ul>
-<li>Pythonコードの推論部だけをC++等で記述して、Deployを効果的に行えるようなSoftware構成を検討したい。</li>
-</ul>
-</li>
-<li>Deep Learningやコーディングを勉強中であり、調査しながら良い形を模索したい。</li>
 </ul>
 <hr>
-<h2>検討１：Python環境の呼び出しやすさの観点では？</h2>
+<h2>２．FineTuningをとりあえず動かす。</h2>
+<ol>
+<li>画像セットの入手<ul>
+<li>参考サイトより、本データベースの存在を知る。テストにちょうど良い規模感でしょうか。</li>
+<li><a href="http://www.robots.ox.ac.uk/~vgg/data/flowers/17/">17 Category Flower Dataset</a>のダウンロード<ul>
+<li><code>Downloads =&gt; Dataset images</code>より、<code>17flowers.tgz</code>を入手。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ソースコードの入手<ul>
+<li>参考サイト１より、ソースコードを入手。</li>
+</ul>
+</li>
+<li>Fine Tuning（学習）<ol>
+<li>画像データ準備<ul>
+<li><code>setup.py</code>により、画像データを<code>train_images</code>と<code>test_images</code>のフォルダに分けて保存。</li>
+</ul>
+</li>
+<li>学習：<code>finetuning.py</code>を実施。<ul>
+<li>Fine Tuningのエッセンスはここにあると予想。</li>
+<li>plotのimportでエラーが出て動作しない。<ul>
+<li>該当箇所
+    <code>python
+    from keras.utils.visualize_util import plot
+    #from keras.utils.vis_utils import plot</code></li>
+<li>keras.utils.visualize_utilが、leras.utils.vis_utilsに変更されたとの情報あり、変更するもplot見つからず。</li>
+<li>コアな部分でないので、とりあえずコメントでつぶしてしまい、先に進む。<ul>
+<li>飛ばすのは良くはありませんが・・本番で使いたいのはFront-end tensorflow, Back-end kerasで、本ソースコードとは逆だったりするので、後で落ち着いて対処すればいい。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>GPUマシン（末記の検証環境）にて、50分ほどで学習完了。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>予測／推論の実行<ul>
+<li><code>predict.py</code>実行。Tulip画像がTulip　1位で推論された。
+    <code>python
+    (py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
+    ('Tulip', 0.9972982)
+    ('Daffodil', 0.0010603186)
+    ('Sunflower', 0.0004312605)
+    ('Iris', 0.00036461666)
+    ('Dandelion', 0.00031871776)</code></li>
+<li>
+<p><code>evaluate.py</code>実行。</p>
+<p><code>python
+(py3.6_tf1.5.0) &gt;python evaluate.py
+loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples)
+0.266931531164304 0.8876451073989742</code>
+    * とりあえず、上手く動かせたか。</p>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>３．Fine Tuningに必要な要素（学習メモ）</h2>
+<ol>
+<li>
+<p>Kerasのgenerator</p>
+<ul>
+<li>generatorに　train/testのデータ（フォルダ）や、augmentation有無などを指定して学習スタート、といった使い方。<ul>
+<li>入力画像データは、train/testのフォルダ分けをしておくのが1つのやり方であることと理解。</li>
+<li>フォルダ分けをしなくても、例えばファイルパスのリストを与えるなど、あるのかどうかを調査。<ul>
+<li><a href="https://keras.io/preprocessing/image/">Keras Documentation ImageDataGenerator class</a><ul>
+<li>今回のサンプルコードでは、<code>flow_from_directory</code>を利用している。</li>
+<li><code>flow_from_dataframe</code>が使える。pandasのdataframeで、公式に記載のフォーマットで記載されていればよい。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Fine Tuningのやり方</p>
+<ul>
+<li>Networkの重みの固定の仕方で、セオリーでは以下と理解。<ol>
+<li>特徴抽出：学習済み畳み込みベース（CNN部分）を凍結し、学習済み分類器（全結合層部分）を新しい分類器で学習。</li>
+<li>ファインチューニング：新しく追加した分類器（全結合層部分）と、それに近い畳み込みブロック（VGG16で言えばブロック５）の重みを再学習。</li>
+</ol>
+</li>
+<li>今回使ったサンプルコードでは、上記の1を飛ばして、直接2を実行している。<ul>
+<li>その根拠としては、以下の　<code>block5_conv1 (Conv2D)</code> 以降の重みを再学習している。<ul>
+<li>確認１：プログラム中でfreezeしている層を確認。
+    <code>python
+    # 最後のconv層の直前までの層をfreeze
+    for layer in model.layers[:15]:
+        layer.trainable = False</code></li>
+<li>確認２：VGG16と全結合層を結合した学習用のモデルを出力。
+    <code>python
+    _________________________________________________________________
+    Layer (type)                 Output Shape              Param #
+    =================================================================
+    input_1 (InputLayer)         (None, 150, 150, 3)       0
+    _________________________________________________________________
+    block1_conv1 (Conv2D)        (None, 150, 150, 64)      1792
+    _________________________________________________________________
+    block1_conv2 (Conv2D)        (None, 150, 150, 64)      36928
+    _________________________________________________________________
+    block1_pool (MaxPooling2D)   (None, 75, 75, 64)        0
+    _________________________________________________________________
+    block2_conv1 (Conv2D)        (None, 75, 75, 128)       73856
+    _________________________________________________________________
+    block2_conv2 (Conv2D)        (None, 75, 75, 128)       147584
+    _________________________________________________________________
+    block2_pool (MaxPooling2D)   (None, 37, 37, 128)       0
+    _________________________________________________________________
+    block3_conv1 (Conv2D)        (None, 37, 37, 256)       295168
+    _________________________________________________________________
+    block3_conv2 (Conv2D)        (None, 37, 37, 256)       590080
+    _________________________________________________________________
+    block3_conv3 (Conv2D)        (None, 37, 37, 256)       590080
+    _________________________________________________________________
+    block3_pool (MaxPooling2D)   (None, 18, 18, 256)       0
+    _________________________________________________________________
+    block4_conv1 (Conv2D)        (None, 18, 18, 512)       1180160
+    _________________________________________________________________
+    block4_conv2 (Conv2D)        (None, 18, 18, 512)       2359808
+    _________________________________________________________________
+    block4_conv3 (Conv2D)        (None, 18, 18, 512)       2359808
+    _________________________________________________________________
+    block4_pool (MaxPooling2D)   (None, 9, 9, 512)         0
+    _________________________________________________________________
+    block5_conv1 (Conv2D)        (None, 9, 9, 512)         2359808
+    _________________________________________________________________
+    block5_conv2 (Conv2D)        (None, 9, 9, 512)         2359808
+    _________________________________________________________________
+    block5_conv3 (Conv2D)        (None, 9, 9, 512)         2359808
+    _________________________________________________________________
+    block5_pool (MaxPooling2D)   (None, 4, 4, 512)         0
+    _________________________________________________________________
+    sequential_1 (Sequential)    (None, 17)                2101777
+    =================================================================
+    Total params: 16,816,465
+    Trainable params: 9,181,201
+    Non-trainable params: 7,635,264
+    _________________________________________________________________</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>ソースコード別理解</p>
+<ul>
+<li>他のソースコードの内容も確認し、Fine Tuningで勉強すべきトピックを確認する。</li>
+<li>
+<p>ソースコードと役割の確認</p>
+<ul>
+<li>データの準備<ul>
+<li>setup.py</li>
+</ul>
+</li>
+<li>学習メイン<ul>
+<li>finetuning.py</li>
+<li>vgg_scratch.py : VGG16の重みをランダム化した場合。学習が上手くいかない例のはず。</li>
+<li>finetuning_with_preprocess.py : 前処理を使っている。<font color="pink">別途調査したい。</font></li>
+</ul>
+</li>
+<li>
+<p>推論</p>
+<ul>
+<li>predict.py  : 画像１枚のみの推論</li>
+<li>evaluate.py : テストデータ全体の推論</li>
+<li>predict_with_preprocess.py : 画像１枚のみの推論。前処理を使っている。</li>
+</ul>
+</li>
+<li>
+<p>可視化</p>
+<ul>
+<li>extractor.py : ボトルネック特徴量（FC層の直前の出力）をファイルに保存。<font color="pink">モデルの検証方法として使えるかを調査したい。</font></li>
+<li>plot_results.py : matplotlibで学習ログを可視化</li>
+</ul>
+</li>
+<li>
+<p>helperと単純な？cnn</p>
+<ul>
+<li>smallcnn.py</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>４．参考サイト／書籍</h2>
+<ol>
+<li>PythonとKerasによるディープラーニング（マイナビ出版）<ul>
+<li>Fine Tuningの考え方が載っていて、参考になった。</li>
+</ul>
+</li>
+<li><a href="http://aidiary.hatenablog.com/entry/20170131/1485864665">VGG16のFine-tuningによる17種類の花の分類</a><ul>
+<li>こちらからソースコードを入手して試行させて頂いた。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>５．検証環境</h2>
 <table>
 <thead>
 <tr>
-<th align="right">No</th>
-<th>GUI構築</th>
-<th>Python呼び出し方法</th>
-<th>Note</th>
+<th>No</th>
+<th>名称</th>
+<th>状況</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="right">1</td>
-<td>C#</td>
-<td>追加ライブラリ無しでOKの模様</td>
-<td>Microsoftの例としてAnaconda環境。その他のPython環境も使えるらしい。</td>
+<td>1</td>
+<td>CPU</td>
+<td>AMD Phenom(tm) II X6 1090T 3.20GHz<BR>これが<code>AVX（Advanced Vector Extensions）</code>を搭載しておらず、<BR>Tensorflowはver=1.5.0止まりとなってしまう。</td>
 </tr>
 <tr>
-<td align="right">2</td>
-<td>C++</td>
-<td>Boost.Pythonが必要？</td>
-<td>No1とやれることは似通っているようにみえる。PythonからC++（逆方向）もできる。</td>
+<td>2</td>
+<td>GPU</td>
+<td>GeForce GTX 1060 6GB<br>Jupyter notebookに多少メモリ開放バグあるみたい？<br>たまに6GB上限を気にするレベルで、とりあえずまだ大丈夫。</td>
 </tr>
 <tr>
-<td align="right">3</td>
-<td>C#(.net)</td>
-<td>pythonnet</td>
-<td>Python3.5までの対応の模様。</td>
+<td>3</td>
+<td>Memory</td>
+<td>16GB<br>機械学習のため秋葉原で中古メモリ増設。4-&gt;16で色々快適に。</td>
 </tr>
 <tr>
-<td align="right">4</td>
-<td>C#</td>
-<td>IronPython</td>
-<td>IronPythonは動かないという情報が多い。</td>
+<td>4</td>
+<td>Python</td>
+<td>Windows, Anaconda3-5.3.1 でver3.6の仮想環境（Tensorflow対応から3.6とした）</td>
 </tr>
 <tr>
-<td align="right">5</td>
-<td>任意</td>
-<td>PythonをWebAPI化(Flask?)</td>
-<td>引数→出力　以上の連携が楽になる。サーバーを別立てした構成が立てやすくなるはず。</td>
+<td>5</td>
+<td>Tensorflow</td>
+<td>Version 1.5.0<BR>Visual Studio 2015 Version 14.0.25431.01 Update 3<BR>CUDA V9.0.176<BR>cuDNN v7.0.5[Dec 5, 2017], for CUDA 9.0</td>
 </tr>
 </tbody>
-</table>
-<ul>
-<li>
-<p>No1　<font color="red">現状の結論としてはこれをやってみたい。</font></p>
-<ul>
-<li><a href="https://code.msdn.microsoft.com/windowsdesktop/C-and-Python-interprocess-171378ee">Inter-process communication between C# and Python</a></li>
-<li>非常に単純明快に書かれており、すぐにでも出来そうに感じられる。</li>
-<li>Python側の動作がおよそどんなものになるのか、試してみたいところ。<ul>
-<li>matplotlibのグラフは問題なく出すことが出来るか？（別ウィンドウ、疎結合で可）</li>
-<li>C＃はGUIに閉じて、MVVM的な考え方で行きたいので、そもそも、そんなに確認事項が無い気がする。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>No2</p>
-<ul>
-<li><a href="https://kivantium.net/cpp-boost-python">Boost.PythonでC++からPythonの関数を呼び出す</a><ul>
-<li>No1同様に難しくは無さそう。</li>
-<li>Boost.Pythonが使いやすいものなのか？</li>
-</ul>
-</li>
-<li><a href="http://tadaoyamaoka.hatenablog.com/entry/2017/05/25/234934">PythonからC++を呼び出してnumpyを使う </a><ul>
-<li>逆の呼び出しパターンの記事</li>
-<li>やはり、<code>Boost.Python</code>を使うみたい。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>No3</p>
-<ul>
-<li><a href="https://qiita.com/y-tsutsu/items/0c4561d6478be32e6f8e">Pythonから.NETを呼び出す方法とついでにその逆も</a><ul>
-<li>Python3.5までの動作らしいとの情報。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>No5<ul>
-<li><a href="https://medium.com/@ernest.bonat/using-c-to-call-python-restful-api-web-services-with-machine-learning-models-6d1af4b7787e">Using C# to call Python RESTful API Web Services with Machine Learning Models</a><ul>
-<li>Flaskを使って、PythonをWebAPI化すればよい様だ。</li>
-<li>直接関係ないような気もするものの、<code>Tensorflow Serving</code>とか<code>onnx runtime</code>とかも出てきている。</li>
-<li>必要になったら考えよう。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2>検討２：GUIの観点では？</h2>
-<ul>
-<li>
-<p>前提</p>
-<ul>
-<li>前提として C# or C++？で考えている。</li>
-<li>Pythonでは<code>Kivy</code>を多少触ってみた。少し触った感じではあるが、Windowsであれば、Visual Studioのデザイナーには敵わない気がする。</li>
-<li>C#はほとんどやったことないが、C++が書けるというほど使ってきたわけでもない。</li>
-</ul>
-</li>
-<li>
-<p>予定</p>
-<ul>
-<li>C#のGUIに対する期待感　&gt; C++　GUIの期待感。</li>
-<li>C++はC++/CLIを扱わなければいけないので厄介という記事があったり。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2>結論</h2>
-<ul>
-<li>No1のフレームワークで進めてみたい。<ul>
-<li>C#の勉強に。</li>
-<li>Deep Learning 検討用の、自前画像ビューアに。</li>
-</ul>
-</li>
-<li>（蛇足）OpenCVも使いたい。<ul>
-<li>C#だとOpenCVSharpなるラッパーを使うのが普通？ということに初めて気が付く。</li>
-<li>OpenCVSharpって何だろう、という漠然とした不安。（知らないだけ）</li>
-<li>こんな実装もありかな？　と勝手に想像して、C#選択のブロック要因とまでは考えないようにする。<ul>
-<li>GUI側で簡単に何かしたいとき、OpenCVSharpを使えば良い。</li>
-<li>本格的に処理をしたいとき、Python側でOpenCVを使い、結果をGUI側でビューすることでの連携はできそう。</li>
-<li>OpenCVSharpがデファクトだったりするのかもしれない。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>                </article>
+</table>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html" rel="bookmark"
+                           title="Permalink to PythonをC#/C++どちらから呼び出すのが良いか？">PythonをC#/C++どちらから呼び出すのが良いか？</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>金 02 8月 2019</span>
+
+</footer><!-- /.post-info -->                <p>C#で進めていく。RestFul　APIまで欲しくなったら、PythonをWebAPI化する。</p>
+                <a class="readmore" href="https://sassea34.github.io/pythonwoccdochirakarahu-bichu-sunogaliang-ika.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

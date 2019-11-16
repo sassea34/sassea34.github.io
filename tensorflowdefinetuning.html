@@ -58,48 +58,63 @@
 <li>参考サイト１より、ソースコードを入手。</li>
 </ul>
 </li>
-<li>Fine Tuning（学習）<ol>
+<li>
+<p>Fine Tuning（学習）</p>
+<ol>
 <li>画像データ準備<ul>
 <li><code>setup.py</code>により、画像データを<code>train_images</code>と<code>test_images</code>のフォルダに分けて保存。</li>
 </ul>
 </li>
-<li>学習：<code>finetuning.py</code>を実施。<ul>
+<li>
+<p>学習：<code>finetuning.py</code>を実施。</p>
+<ul>
 <li>Fine Tuningのエッセンスはここにあると予想。</li>
-<li>plotのimportでエラーが出て動作しない。<ul>
-<li>該当箇所
-    <code>python
-    from keras.utils.visualize_util import plot
-    #from keras.utils.vis_utils import plot</code></li>
-<li>keras.utils.visualize_utilが、leras.utils.vis_utilsに変更されたとの情報あり、変更するもplot見つからず。</li>
+<li>
+<p>plotのimportでエラーが出て動作しない。</p>
+<ul>
+<li>
+<p>該当箇所</p>
+<p>```python
+from keras.utils.visualize_util import plot</p>
+<h1>from keras.utils.vis_utils import plot</h1>
+<p>```</p>
+</li>
+<li>
+<p>keras.utils.visualize_utilが、leras.utils.vis_utilsに変更されたとの情報あり、変更するもplot見つからず。</p>
+</li>
 <li>コアな部分でないので、とりあえずコメントでつぶしてしまい、先に進む。<ul>
-<li>飛ばすのは良くはありませんが・・本番で使いたいのはFront-end tensorflow, Back-end kerasで、本ソースコードとは逆だったりするので、後で落ち着いて対処すればいい。</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>飛ばすのは良くはありませんが・・本番で使いたいのはFront-end tensorflow, Back-end kerasで、本ソースコードとは逆だったりするので、後で落ち着いて対処すればいい。<ul>
 <li>GPUマシン（末記の検証環境）にて、50分ほどで学習完了。</li>
 </ul>
 </li>
-</ol>
+</ul>
 </li>
 <li>予測／推論の実行<ul>
-<li><code>predict.py</code>実行。Tulip画像がTulip　1位で推論された。
-    <code>python
-    (py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
-    ('Tulip', 0.9972982)
-    ('Daffodil', 0.0010603186)
-    ('Sunflower', 0.0004312605)
-    ('Iris', 0.00036461666)
-    ('Dandelion', 0.00031871776)</code></li>
+<li><code>predict.py</code>実行。Tulip画像がTulip　1位で推論された。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><code>python
+(py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
+('Tulip', 0.9972982)
+('Daffodil', 0.0010603186)
+('Sunflower', 0.0004312605)
+('Iris', 0.00036461666)
+('Dandelion', 0.00031871776)</code></p>
+</li>
 <li>
 <p><code>evaluate.py</code>実行。</p>
 <p><code>python
 (py3.6_tf1.5.0) &gt;python evaluate.py
 loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples)
-0.266931531164304 0.8876451073989742</code>
-    * とりあえず、上手く動かせたか。</p>
+0.266931531164304 0.8876451073989742</code></p>
 </li>
-</ul>
+<li>
+<p>とりあえず、上手く動かせたか。</p>
+</li>
+</ol>
 </li>
 </ol>
 <hr>
@@ -131,61 +146,67 @@ loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples
 </ol>
 </li>
 <li>今回使ったサンプルコードでは、上記の1を飛ばして、直接2を実行している。<ul>
-<li>その根拠としては、以下の　<code>block5_conv1 (Conv2D)</code> 以降の重みを再学習している。<ul>
-<li>確認１：プログラム中でfreezeしている層を確認。
-    <code>python
-    # 最後のconv層の直前までの層をfreeze
-    for layer in model.layers[:15]:
-        layer.trainable = False</code></li>
-<li>確認２：VGG16と全結合層を結合した学習用のモデルを出力。
-    <code>python
-    _________________________________________________________________
-    Layer (type)                 Output Shape              Param #
-    =================================================================
-    input_1 (InputLayer)         (None, 150, 150, 3)       0
-    _________________________________________________________________
-    block1_conv1 (Conv2D)        (None, 150, 150, 64)      1792
-    _________________________________________________________________
-    block1_conv2 (Conv2D)        (None, 150, 150, 64)      36928
-    _________________________________________________________________
-    block1_pool (MaxPooling2D)   (None, 75, 75, 64)        0
-    _________________________________________________________________
-    block2_conv1 (Conv2D)        (None, 75, 75, 128)       73856
-    _________________________________________________________________
-    block2_conv2 (Conv2D)        (None, 75, 75, 128)       147584
-    _________________________________________________________________
-    block2_pool (MaxPooling2D)   (None, 37, 37, 128)       0
-    _________________________________________________________________
-    block3_conv1 (Conv2D)        (None, 37, 37, 256)       295168
-    _________________________________________________________________
-    block3_conv2 (Conv2D)        (None, 37, 37, 256)       590080
-    _________________________________________________________________
-    block3_conv3 (Conv2D)        (None, 37, 37, 256)       590080
-    _________________________________________________________________
-    block3_pool (MaxPooling2D)   (None, 18, 18, 256)       0
-    _________________________________________________________________
-    block4_conv1 (Conv2D)        (None, 18, 18, 512)       1180160
-    _________________________________________________________________
-    block4_conv2 (Conv2D)        (None, 18, 18, 512)       2359808
-    _________________________________________________________________
-    block4_conv3 (Conv2D)        (None, 18, 18, 512)       2359808
-    _________________________________________________________________
-    block4_pool (MaxPooling2D)   (None, 9, 9, 512)         0
-    _________________________________________________________________
-    block5_conv1 (Conv2D)        (None, 9, 9, 512)         2359808
-    _________________________________________________________________
-    block5_conv2 (Conv2D)        (None, 9, 9, 512)         2359808
-    _________________________________________________________________
-    block5_conv3 (Conv2D)        (None, 9, 9, 512)         2359808
-    _________________________________________________________________
-    block5_pool (MaxPooling2D)   (None, 4, 4, 512)         0
-    _________________________________________________________________
-    sequential_1 (Sequential)    (None, 17)                2101777
-    =================================================================
-    Total params: 16,816,465
-    Trainable params: 9,181,201
-    Non-trainable params: 7,635,264
-    _________________________________________________________________</code></li>
+<li>
+<p>その根拠としては、以下の　<code>block5_conv1 (Conv2D)</code> 以降の重みを再学習している。</p>
+<ul>
+<li>
+<p>確認１：プログラム中でfreezeしている層を確認。</p>
+<p>```python</p>
+<h1>最後のconv層の直前までの層をfreeze</h1>
+<p>for layer in model.layers[:15]:
+    layer.trainable = False
+```</p>
+</li>
+<li>
+<p>確認２：VGG16と全結合層を結合した学習用のモデルを出力。</p>
+<p>```python</p>
+<hr>
+<h1>Layer (type)                 Output Shape              Param #</h1>
+<p>input_1 (InputLayer)         (None, 150, 150, 3)       0</p>
+<hr>
+<p>block1_conv1 (Conv2D)        (None, 150, 150, 64)      1792</p>
+<hr>
+<p>block1_conv2 (Conv2D)        (None, 150, 150, 64)      36928</p>
+<hr>
+<p>block1_pool (MaxPooling2D)   (None, 75, 75, 64)        0</p>
+<hr>
+<p>block2_conv1 (Conv2D)        (None, 75, 75, 128)       73856</p>
+<hr>
+<p>block2_conv2 (Conv2D)        (None, 75, 75, 128)       147584</p>
+<hr>
+<p>block2_pool (MaxPooling2D)   (None, 37, 37, 128)       0</p>
+<hr>
+<p>block3_conv1 (Conv2D)        (None, 37, 37, 256)       295168</p>
+<hr>
+<p>block3_conv2 (Conv2D)        (None, 37, 37, 256)       590080</p>
+<hr>
+<p>block3_conv3 (Conv2D)        (None, 37, 37, 256)       590080</p>
+<hr>
+<p>block3_pool (MaxPooling2D)   (None, 18, 18, 256)       0</p>
+<hr>
+<p>block4_conv1 (Conv2D)        (None, 18, 18, 512)       1180160</p>
+<hr>
+<p>block4_conv2 (Conv2D)        (None, 18, 18, 512)       2359808</p>
+<hr>
+<p>block4_conv3 (Conv2D)        (None, 18, 18, 512)       2359808</p>
+<hr>
+<p>block4_pool (MaxPooling2D)   (None, 9, 9, 512)         0</p>
+<hr>
+<p>block5_conv1 (Conv2D)        (None, 9, 9, 512)         2359808</p>
+<hr>
+<p>block5_conv2 (Conv2D)        (None, 9, 9, 512)         2359808</p>
+<hr>
+<p>block5_conv3 (Conv2D)        (None, 9, 9, 512)         2359808</p>
+<hr>
+<p>block5_pool (MaxPooling2D)   (None, 4, 4, 512)         0</p>
+<hr>
+<h1>sequential_1 (Sequential)    (None, 17)                2101777</h1>
+<p>Total params: 16,816,465
+Trainable params: 9,181,201
+Non-trainable params: 7,635,264</p>
+<hr>
+<p>```</p>
+</li>
 </ul>
 </li>
 </ul>

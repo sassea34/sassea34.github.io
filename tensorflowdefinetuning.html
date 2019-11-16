@@ -74,7 +74,7 @@
 <ul>
 <li>
 <p>該当箇所</p>
-<p>```python
+<p>```
 from keras.utils.visualize_util import plot</p>
 <h1>from keras.utils.vis_utils import plot</h1>
 <p>```</p>
@@ -96,8 +96,7 @@ from keras.utils.visualize_util import plot</p>
 </ul>
 </li>
 </ul>
-<p><code>python
-(py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
+<p><code>(py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
 ('Tulip', 0.9972982)
 ('Daffodil', 0.0010603186)
 ('Sunflower', 0.0004312605)
@@ -106,8 +105,7 @@ from keras.utils.visualize_util import plot</p>
 </li>
 <li>
 <p><code>evaluate.py</code>実行。</p>
-<p><code>python
-(py3.6_tf1.5.0) &gt;python evaluate.py
+<p><code>(py3.6_tf1.5.0) &gt;python evaluate.py
 loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples)
 0.266931531164304 0.8876451073989742</code></p>
 </li>
@@ -151,7 +149,7 @@ loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples
 <ul>
 <li>
 <p>確認１：プログラム中でfreezeしている層を確認。</p>
-<p>```python</p>
+<p>```</p>
 <h1>最後のconv層の直前までの層をfreeze</h1>
 <p>for layer in model.layers[:15]:
     layer.trainable = False
@@ -159,7 +157,7 @@ loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples
 </li>
 <li>
 <p>確認２：VGG16と全結合層を結合した学習用のモデルを出力。</p>
-<p>```python</p>
+<p>```</p>
 <hr>
 <h1>Layer (type)                 Output Shape              Param #</h1>
 <p>input_1 (InputLayer)         (None, 150, 150, 3)       0</p>

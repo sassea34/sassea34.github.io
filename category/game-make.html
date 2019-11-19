@@ -29,6 +29,20 @@
         <span>月 30 9月 2019</span>
 
 </footer><!-- /.post-info --><h1>ai_versus</h1>
+<h2>Game Screen</h2>
+<ul>
+<li>Deep Q Network has not applyed yet.  </li>
+</ul>
+<video autoplay loop muted playsinline controls width="360px" height="270px" poster="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg">  
+    <source src="https://sassea34.github.io/assets/ai_versus/ai_versus_20191108_360x270_8kbps.mp4" type="video/mp4" />  
+    <!--
+    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.ogv" type="video/ogg" />  
+    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.webm" type="video/webm" />  
+    -->
+    <img src="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg" />  
+</video>
+
+<hr>
 <h2>Background / Status</h2>
 <ul>
 <li>Motivation<ul>
@@ -47,16 +61,6 @@
 </li>
 </ul>
 <hr>
-<h2>Game Screen</h2>
-<video autoplay loop muted playsinline controls width="360px" height="270px" poster="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg">  
-    <source src="https://sassea34.github.io/assets/ai_versus/ai_versus_20191108_360x270_8kbps.mp4" type="video/mp4" />  
-    <!--
-    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.ogv" type="video/ogg" />  
-    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.webm" type="video/webm" />  
-    -->
-    <img src="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg" />  
-</video>
-
 <h2>Game Rules</h2>
 <ul>
 <li>If the base destroyed, CPU/Player lose.</li>
@@ -67,6 +71,7 @@
 </ul>
 </li>
 </ul>
+<hr>
 <h2>Planes</h2>
 <table>
 <thead>
@@ -88,22 +93,114 @@
 <td>base</td>
 <td><img alt="CPU base" src="https://sassea34.github.io/assets/ai_versus/as11-44-6667_100_tp.png"></td>
 <td><img alt="Player base" src="https://sassea34.github.io/assets/ai_versus/187_1003703_africa_dxm_100_tp.png"></td>
-<td>The base on bose army.<BR>Destroyed to LOSE.</td>
+<td>Do not move, intercept shoot and have barrior around the base.<BR>Destroyed to LOSE.</td>
 </tr>
 <tr>
 <td>warship</td>
 <td><img alt="CPU warship" src="https://sassea34.github.io/assets/ai_versus/elmeth_man_08.png"></td>
 <td><img alt="Player warship" src="https://sassea34.github.io/assets/ai_versus/nc105852.png"></td>
-<td>High HP, slow speed.<BR>Controlled by random-base.</td>
+<td>High HP, slow speed.<BR>Controlled by random and heatmap based.</td>
 </tr>
 <tr>
 <td>fighter</td>
 <td><img alt="CPU fighter" src="https://sassea34.github.io/assets/ai_versus/nc105800.png"></td>
 <td><img alt="Player fighter" src="https://sassea34.github.io/assets/ai_versus/nc105813.png"></td>
-<td>Controlled by a lesser rule-based routine.<BR>Tends to rush into enemy.</td>
+<td>Low HP, normal speed.<BR>Controlled by a lesser rule-based routine, and heatmap based.</td>
 </tr>
 </tbody>
-</table>                </article>
+</table>
+<h2>Deep Q Network design. (Now on consideration.)</h2>
+<ol>
+<li>
+<p>Basic theory to apply DQN, my understanding.</p>
+<ul>
+<li>Newral network input is variables of environment state.</li>
+<li>Newral network output is variables of action of leader.</li>
+<li>Reward for Q update is by calcurated by rule-base, for 1st version.<ul>
+<li>Ideal goal is not to this, just feed whole frame to CNN, maybe.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Action of leader.</p>
+<ul>
+<li>Movement<ul>
+<li>It is 360 degree free, by joystick.</li>
+<li>I will discretize it to..<ul>
+<li>8 directions, step by 45 degree.</li>
+<li>or 12 directions, step by 30 degree.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Shooting<ul>
+<li>Same as movement.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Environment State and related Rewards.</p>
+<ul>
+<li>This shooter game has many environment variables, so I would like to determine the state, and related rewards for 1st version.</li>
+<li>In addition to the table below, a human player can watch minimap and notice-window. But It may be difficult to describe them as rewards, so exclude them on 1st version.</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="right">No</th>
+<th>Environment State</th>
+<th>Rewards</th>
+<th>Hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">1</td>
+<td>Total HP of planes on the game view area.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>It is better to be dense as army in the view area.</td>
+</tr>
+<tr>
+<td align="right">2</td>
+<td>HP of leaders.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>The leaders are the most important for this battle, so this must be watched.</td>
+</tr>
+<tr>
+<td align="right">3</td>
+<td>HP of bases.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>The bases are also important same as leaders.</td>
+</tr>
+<tr>
+<td align="right">4</td>
+<td>Shotplus timer of leaders.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>This is strengthened state of leaders, which shoot 4 bullets at the same time. So this states is also important.</td>
+</tr>
+<tr>
+<td align="right">5</td>
+<td>Distance to the items, by leaders.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>3 items are there, HP+ / shotplus(timer) / warship call.<BR>AI may decide to get item, for this state and rewards.</td>
+</tr>
+<tr>
+<td align="right">6</td>
+<td>Distance to the enemy base, by leaders.</td>
+<td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
+<td>The goal is to destroy the base.<BR><BR>AI may decide to be closer to enemy's base.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>DQN Results</h2>
+<ul>
+<li>Continued after implementation.</li>
+</ul>                </article>
 <p class="paginator">
     Page 1 / 1
 </p>

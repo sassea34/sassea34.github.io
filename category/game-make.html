@@ -29,42 +29,81 @@
         <span>月 30 9月 2019</span>
 
 </footer><!-- /.post-info --><h1>ai_versus</h1>
-<h2>Background</h2>
+<h2>Background / Status</h2>
 <ul>
+<li>Motivation<ul>
+<li>To continue studying AI technics, I think it's good to make game by myself, and apply AI to the game.</li>
+</ul>
+</li>
 <li>Goal<ul>
-<li>I want to make/study AI on my hand-made game.</li>
-<li>Use <code>Deep Q Network</code> on the game.</li>
+<li>AI will exceeds humans, on my hand-made game.</li>
+</ul>
+</li>
+<li>Progress<ul>
+<li>Finished making game which is equal among CPU(to be AI) and player(human).</li>
+<li>CPU is cotrolled by rule-based routine for now.</li>
+<li>Now on phase of designing and applying Deep Q Network on the game.</li>
 </ul>
 </li>
 </ul>
 <hr>
-<h2>Current status</h2>
+<h2>Game Screen</h2>
+<video autoplay loop muted playsinline controls width="360px" height="270px" poster="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg">  
+    <source src="https://sassea34.github.io/assets/ai_versus/ai_versus_20191108_360x270_8kbps.mp4" type="video/mp4" />  
+    <!--
+    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.ogv" type="video/ogg" />  
+    <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.webm" type="video/webm" />  
+    -->
+    <img src="https://sassea34.github.io/assets/ai_versus/ai_versus.jpg" />  
+</video>
+
+<h2>Game Rules</h2>
 <ul>
-<li>
-<p>Game Screen<br>
-    <video autoplay loop muted playsinline controls width="360px" height="270px" poster="https://sassea34.github.io/assets/ai_versus.jpg"><br>
-      <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.mp4" type="video/mp4" /><br>
-      <!--
-      <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.ogv" type="video/ogg" /><br>      <source src="https://sassea34.github.io/assets/ai_versus_20191108_360x270_8kbps.webm" type="video/webm" /><br>      -->
-      <img src="https://sassea34.github.io/assets/ai_versus.jpg" /><br>
-    </video>  </p>
-</li>
-<li>
-<p>Current stage</p>
-<ul>
-<li>2D all direction shooter, with free-contents.</li>
-<li>Just developped to a certain degree as a shooting game.</li>
-<li>Just using simple rule-based algorithm to handle enemies.</li>
-<li>AI of DQN has not implemented yet.</li>
+<li>If the base destroyed, CPU/Player lose.</li>
+<li>If the leader destroyed, it takes time to respawn at the base.</li>
+<li>Conditions are equal among CPU and Player side.<ul>
+<li>Both CPU and Player leader is controllable by AI, in future.</li>
+<li>Also plan to set AI to each side. (AI versus AI)</li>
 </ul>
 </li>
-<li>
-<p>Feature Works</p>
-<ul>
-<li>Study DQN, and apply to the game.</li>
 </ul>
-</li>
-</ul>                </article>
+<h2>Planes</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>CPU</th>
+<th>Player</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>leader</td>
+<td><img alt="CPU leader" src="https://sassea34.github.io/assets/ai_versus/nc105814.png"></td>
+<td><img alt="Player leader" src="https://sassea34.github.io/assets/ai_versus/rocket1.gif"></td>
+<td>Move to free direction.<BR>Shoot to free direction.<BR>Controlled by CPU, or by player with joypad.</td>
+</tr>
+<tr>
+<td>base</td>
+<td><img alt="CPU base" src="https://sassea34.github.io/assets/ai_versus/as11-44-6667_100_tp.png"></td>
+<td><img alt="Player base" src="https://sassea34.github.io/assets/ai_versus/187_1003703_africa_dxm_100_tp.png"></td>
+<td>The base on bose army.<BR>Destroyed to LOSE.</td>
+</tr>
+<tr>
+<td>warship</td>
+<td><img alt="CPU warship" src="https://sassea34.github.io/assets/ai_versus/elmeth_man_08.png"></td>
+<td><img alt="Player warship" src="https://sassea34.github.io/assets/ai_versus/nc105852.png"></td>
+<td>High HP, slow speed.<BR>Controlled by random-base.</td>
+</tr>
+<tr>
+<td>fighter</td>
+<td><img alt="CPU fighter" src="https://sassea34.github.io/assets/ai_versus/nc105800.png"></td>
+<td><img alt="Player fighter" src="https://sassea34.github.io/assets/ai_versus/nc105813.png"></td>
+<td>Controlled by a lesser rule-based routine.<BR>Tends to rush into enemy.</td>
+</tr>
+</tbody>
+</table>                </article>
 <p class="paginator">
     Page 1 / 1
 </p>

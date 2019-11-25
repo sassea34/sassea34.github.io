@@ -149,7 +149,16 @@
 <li>
 <p>Environment State and related Rewards.</p>
 <ul>
-<li>This shooter game has many environment variables, so I would like to determine the state, and related rewards for 1st version.<ul>
+<li>
+<p>For state, plan to use heatmap as input.</p>
+<ul>
+<li><img alt="heat map" src="https://sassea34.github.io/assets/ai_versus/heatmap.png"></li>
+<li>CPU colored red, Player colored green.</li>
+</ul>
+</li>
+<li>
+<p>This shooter game has many environment variables, so I would like to determine the state, and related rewards for 1st version.</p>
+<ul>
 <li>It may be better to use clipping for rewards, that mean reward to be [-1, 0, 1].</li>
 </ul>
 </li>
@@ -169,9 +178,9 @@
 <tbody>
 <tr>
 <td align="right">1</td>
-<td>Total HP of planes on the game view area.</td>
+<td>Total HP of planes on the ~~game view area.~~ global area.</td>
 <td>Ratio among CPU/Player, <BR>converted to be -1 &lt;= x &lt;= 1</td>
-<td>It is better to be dense as army in the view area.</td>
+<td>~~It is better to be dense as army in the view area.~~<BR>That's a human sence and not so good to give that kind of. Alternatively use total HP.</td>
 </tr>
 <tr>
 <td align="right">2</td>

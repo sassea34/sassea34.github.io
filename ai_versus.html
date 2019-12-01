@@ -120,16 +120,16 @@
 <li>
 <p>Basic theory to apply DQN, my understanding.</p>
 <ul>
-<li>Newral network input is variables of environment state.</li>
-<li>Newral network output is variables of action of leader.</li>
-<li>Reward for Q update is by calcurated by rule-base, for 1st version.<ul>
+<li><strong>Action</strong> : Newral network output is variables of action of leader.</li>
+<li><strong>State</strong>  : Newral network input is variables of environment state.</li>
+<li><strong>Reward</strong> : Reward for Q update is by calcurated by rule-base, for 1st version.<ul>
 <li>Ideal goal is not to this, just feed whole frame to CNN, maybe.</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Action of leader.</p>
+<p><strong>Action</strong>, of leader.</p>
 <ul>
 <li>Movement<ul>
 <li>It is 360 degree free, by joystick.</li>
@@ -147,22 +147,32 @@
 </ul>
 </li>
 <li>
-<p>Environment State and related Rewards.</p>
+<p><strong>State</strong></p>
 <ul>
-<li>
-<p>For state, plan to use heatmap as input.</p>
-<ul>
-<li><img alt="heat map" src="https://sassea34.github.io/assets/ai_versus/heatmap.png"></li>
-<li>CPU colored red, Player colored green.</li>
+<li>For state, plan to use heat-map as input.<ul>
+<li><img alt="heat map" src="https://sassea34.github.io/assets/ai_versus/heatmap.png"><ul>
+<li>Small figure(upper) shows each plane positions as mini-map.</li>
+<li>Lower one is a heat-map.</li>
+<li>CPU(AI) colored red, Player colored green, graded by their HP.</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>
-<p>This shooter game has many environment variables, so I would like to determine the state, and related rewards for 1st version.</p>
+<p><strong>Reward</strong></p>
 <ul>
+<li>This shooter game has many environment variables, so I would like to determine the state, and related rewards for 1st version.<ul>
 <li>It may be better to use clipping for rewards, that mean reward to be [-1, 0, 1].</li>
 </ul>
 </li>
-<li>In addition to the table below, a human player can watch minimap and notice-window. But It may be difficult to describe them as rewards, so exclude them on 1st version.</li>
+<li>
+<p>In addition to the table below, a human player can watch minimap and notice-window. But It may be difficult to describe them as rewards, so exclude them on 1st version.</p>
+</li>
+<li>
+<p>Currently 6 rewards are planned, so total reward is to be calculated as <span class="math">\(\sum_i(w_i*x_i)\)</span>.</p>
+</li>
 </ul>
 </li>
 </ol>
@@ -214,11 +224,86 @@
 </tr>
 </tbody>
 </table>
+<ol>
+<li>
+<p>Class design</p>
+<ul>
+<li>
+<p>Plan to add <strong>agent_brain</strong> module for replacing AI handler from random rule-based logics to DQN.</p>
+</li>
+<li>
+<p><img alt="Class design" src="https://sassea34.github.io/assets/ai_versus/DQN_class_design_20191201.png"></p>
+</li>
+</ul>
+</li>
+</ol>
 <hr>
 <h2>DQN Results</h2>
 <ul>
 <li>Continued after implementation.</li>
 </ul>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
     </div><!-- /.entry-content -->
 
   </article>

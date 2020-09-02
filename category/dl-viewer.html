@@ -18,6 +18,7 @@
                     <li><a href="https://sassea34.github.io/category/deep-learning.html">Deep Learning</a></li>
                     <li class="active"><a href="https://sassea34.github.io/category/dl-viewer.html">DL Viewer</a></li>
                     <li><a href="https://sassea34.github.io/category/game-make.html">Game Make</a></li>
+                    <li><a href="https://sassea34.github.io/category/python.html">Python</a></li>
                 </ul>
                 </nav>
         </header><!-- /#banner -->
@@ -113,7 +114,7 @@ After, I will consider about multi-displaying images or some kind of summary res
 private void MenuItem_Click(object sender, RoutedEventArgs e)
 {
     FolderBrowserDialog fbd = new FolderBrowserDialog();</p>
-<div class="highlight"><pre><span></span><span class="n">fbd</span><span class="p">.</span><span class="n">Description</span> <span class="o">=</span> <span class="s">&quot;Specify the folder to explore.&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="n">fbd</span><span class="p">.</span><span class="n">Description</span> <span class="o">=</span> <span class="s">&quot;Specify the folder to explore.&quot;</span><span class="p">;</span>
 <span class="n">fbd</span><span class="p">.</span><span class="n">RootFolder</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">.</span><span class="n">SpecialFolder</span><span class="p">.</span><span class="n">Desktop</span><span class="p">;</span>
 <span class="n">fbd</span><span class="p">.</span><span class="n">SelectedPath</span> <span class="o">=</span> <span class="s">@&quot;E:</span><span class="se">\070</span><span class="s">_data&quot;</span><span class="p">;</span>
 <span class="n">fbd</span><span class="p">.</span><span class="n">ShowNewFolderButton</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -126,7 +127,7 @@ private void MenuItem_Click(object sender, RoutedEventArgs e)
     <span class="n">UpdateImage</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 <span class="p">}</span>
 <span class="n">fbd</span><span class="p">.</span><span class="n">Dispose</span><span class="p">();</span>
-</pre></div>
+</code></pre></div>
 
 
 <p>}
@@ -181,16 +182,16 @@ writeable_image.Lock();
 unsafe
 {
     int byte_per_pixel = 3;//When Bgr24</p>
-<div class="highlight"><pre><span></span>// Get a pointer to the back buffer.
-int pBackBuffer = (int)bmp.BackBuffer;
+<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="k">Get</span> <span class="n">a</span> <span class="n">pointer</span> <span class="k">to</span> <span class="n">the</span> <span class="n">back</span> <span class="n">buffer</span><span class="p">.</span>
+<span class="nb">int</span> <span class="n">pBackBuffer</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="n">bmp</span><span class="p">.</span><span class="n">BackBuffer</span><span class="p">;</span>
 
-// direct memory access
-// jj: loop variable for y axis
-// ii: loop variable for x axis
-*((int*)(pBackBuffer + bmp.BackBufferStride * jj + ii * byte_per_pixel + 0)) = (byte)0;
-*((int*)(pBackBuffer + bmp.BackBufferStride * jj + ii * byte_per_pixel + 1)) = (byte)0;
-*((int*)(pBackBuffer + bmp.BackBufferStride * jj + ii * byte_per_pixel + 2)) = (byte)255;// make dot(x, y) = (ii, jj) to red.
-</pre></div>
+<span class="o">//</span> <span class="n">direct</span> <span class="n">memory</span> <span class="k">access</span>
+<span class="o">//</span> <span class="n">jj</span><span class="p">:</span> <span class="n">loop</span> <span class="k">variable</span> <span class="k">for</span> <span class="n">y</span> <span class="n">axis</span>
+<span class="o">//</span> <span class="n">ii</span><span class="p">:</span> <span class="n">loop</span> <span class="k">variable</span> <span class="k">for</span> <span class="n">x</span> <span class="n">axis</span>
+<span class="o">*</span><span class="p">((</span><span class="nb">int</span><span class="o">*</span><span class="p">)(</span><span class="n">pBackBuffer</span> <span class="o">+</span> <span class="n">bmp</span><span class="p">.</span><span class="n">BackBufferStride</span> <span class="o">*</span> <span class="n">jj</span> <span class="o">+</span> <span class="n">ii</span> <span class="o">*</span> <span class="n">byte_per_pixel</span> <span class="o">+</span> <span class="mi">0</span><span class="p">))</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span><span class="mi">0</span><span class="p">;</span>
+<span class="o">*</span><span class="p">((</span><span class="nb">int</span><span class="o">*</span><span class="p">)(</span><span class="n">pBackBuffer</span> <span class="o">+</span> <span class="n">bmp</span><span class="p">.</span><span class="n">BackBufferStride</span> <span class="o">*</span> <span class="n">jj</span> <span class="o">+</span> <span class="n">ii</span> <span class="o">*</span> <span class="n">byte_per_pixel</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span><span class="mi">0</span><span class="p">;</span>
+<span class="o">*</span><span class="p">((</span><span class="nb">int</span><span class="o">*</span><span class="p">)(</span><span class="n">pBackBuffer</span> <span class="o">+</span> <span class="n">bmp</span><span class="p">.</span><span class="n">BackBufferStride</span> <span class="o">*</span> <span class="n">jj</span> <span class="o">+</span> <span class="n">ii</span> <span class="o">*</span> <span class="n">byte_per_pixel</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span> <span class="o">=</span> <span class="p">(</span><span class="n">byte</span><span class="p">)</span><span class="mi">255</span><span class="p">;</span><span class="o">//</span> <span class="n">make</span> <span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">)</span> <span class="k">to</span> <span class="n">red</span><span class="p">.</span>
+</code></pre></div>
 
 
 <p>}
@@ -254,8 +255,8 @@ if (xml != null)
     private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         int ind_jump = (int)(e.NewValue * (files.Length - 1) + 0.5);
-        label2.Content = ind_jump;<div class="highlight"><pre><span></span>UpdateImage(ind_jump - ind_files);
-</pre></div>
+        label2.Content = ind_jump;<div class="highlight"><pre><span></span><code><span class="err">UpdateImage(ind_jump - ind_files);</span>
+</code></pre></div>
 
 
 <p>}

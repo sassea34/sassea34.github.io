@@ -18,186 +18,115 @@
                     <li><a href="https://sassea34.github.io/category/deep-learning.html">Deep Learning</a></li>
                     <li><a href="https://sassea34.github.io/category/dl-viewer.html">DL Viewer</a></li>
                     <li><a href="https://sassea34.github.io/category/game-make.html">Game Make</a></li>
+                    <li><a href="https://sassea34.github.io/category/python.html">Python</a></li>
                 </ul>
                 </nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://sassea34.github.io/tensorflowdefinetuning.html">tensorflowでFineTuning</a></h1>
+                    <h1 class="entry-title"><a href="https://sassea34.github.io/dekoreta.html">デコレータ</a></h1>
 <footer class="post-info">
-        <span>土 16 11月 2019</span>
+        <span>水 02 9月 2020</span>
 
-</footer><!-- /.post-info --><h1>tensorflowでFineTuning</h1>
-<h2>１．背景</h2>
-<ul>
-<li>tensorflowにまだまだ慣れていないが、FineTuningを行う必要が出てきました。<ul>
-<li>本番で活用する前に、tensorflowでFineTuningを行う際の自己学習メモとして記録。</li>
-<li>先人のやり方を最大限／時短で吸収したい。</li>
-<li>実PJで使う際に必要になりそうな要素を勉強する。（どうやってデータを配置すべきか等）</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2>２．FineTuningをとりあえず動かす。</h2>
-<ol>
-<li>画像セットの入手<ul>
-<li>参考サイトより、本データベースの存在を知る。テストにちょうど良い規模感でしょうか。</li>
-<li><a href="http://www.robots.ox.ac.uk/~vgg/data/flowers/17/">17 Category Flower Dataset</a>のダウンロード<ul>
-<li><code>Downloads =&gt; Dataset images</code>より、<code>17flowers.tgz</code>を入手。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>ソースコードの入手<ul>
-<li>参考サイト１より、ソースコードを入手。</li>
-</ul>
-</li>
-<li>
-<p>Fine Tuning（学習）</p>
-<ol>
-<li>画像データ準備<ul>
-<li><code>setup.py</code>により、画像データを<code>train_images</code>と<code>test_images</code>のフォルダに分けて保存。</li>
-</ul>
-</li>
-<li>
-<p>学習：<code>finetuning.py</code>を実施。</p>
-<ul>
-<li>Fine Tuningのエッセンスはここにあると予想。</li>
-<li>
-<p>plotのimportでエラーが出て動作しない。</p>
+</footer><!-- /.post-info --><h1>デコレータ</h1>
+<h2>デコレータとは？</h2>
 <ul>
 <li>
-<p>該当箇所</p>
-<p>```<br>
-from keras.utils.visualize_util import plot</p>
-<h1>from keras.utils.vis_utils import plot</h1>
-<p>```</p>
-</li>
-<li>
-<p>keras.utils.visualize_utilが、leras.utils.vis_utilsに変更されたとの情報あり、変更するもplot見つからず。</p>
-</li>
-<li>コアな部分でないので、とりあえずコメントでつぶしてしまい、先に進む。<ul>
-<li>飛ばすのは良くはありませんが・・本番で使いたいのはFront-end tensorflow, Back-end kerasで、本ソースコードとは逆だったりするので、後で落ち着いて対処すればいい。<ul>
-<li>GPUマシン（末記の検証環境）にて、50分ほどで学習完了。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>予測／推論の実行<ul>
-<li><code>predict.py</code>実行。Tulip画像がTulip　1位で推論された。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><code>(py3.6_tf1.5.0) &gt;python predict.py .\test_images\Tulip\image_0012.jpg
-('Tulip', 0.9972982)
-('Daffodil', 0.0010603186)
-('Sunflower', 0.0004312605)
-('Iris', 0.00036461666)
-('Dandelion', 0.00031871776)</code></p>
-</li>
-<li>
-<p><code>evaluate.py</code>実行。</p>
-<p><code>(py3.6_tf1.5.0) &gt;python evaluate.py
-loss, acc = model.evaluate_generator(test_generator, val_samples=nb_test_samples)
-0.266931531164304 0.8876451073989742</code></p>
-</li>
-<li>
-<p>とりあえず、上手く動かせたか。</p>
-</li>
-</ol>
-</li>
-</ol>
-<hr>
-<h2>３．Fine Tuningに必要な要素（学習メモ）</h2>
-<ol>
-<li>
-<p>Kerasのgenerator</p>
+<p>前提</p>
 <ul>
-<li>generatorに　train/testのデータ（フォルダ）や、augmentation有無などを指定して学習スタート、といった使い方。<ul>
-<li>入力画像データは、train/testのフォルダ分けをしておくのが1つのやり方であることと理解。</li>
-<li>フォルダ分けをしなくても、例えばファイルパスのリストを与えるなど、あるのかどうかを調査。<ul>
-<li><a href="https://keras.io/preprocessing/image/">Keras Documentation ImageDataGenerator class</a><ul>
-<li>今回のサンプルコードでは、<code>flow_from_directory</code>を利用している。</li>
-<li><code>flow_from_dataframe</code>が使える。pandasのdataframeで、公式に記載のフォーマットで記載されていればよい。</li>
-</ul>
-</li>
-</ul>
-</li>
+<li>Pythonは引数に関数さえ普通にオブジェクトとして渡せる！<ul>
+<li>これは本当に書いたままの意味</li>
+<li>普段こういうコーディングをしていなかった</li>
+<li>つまりデコレータを使っていなかった、ということにも近しいか。</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p>Fine Tuningのやり方</p>
+<p>デコレータとは、関数をラップし、新たな結果を返すもの</p>
 <ul>
-<li>Networkの重みの固定の仕方で、セオリーでは以下と理解。<ol>
-<li>特徴抽出：学習済み畳み込みベース（CNN部分）を凍結し、学習済み分類器（全結合層部分）を新しい分類器で学習。</li>
-<li>ファインチューニング：新しく追加した分類器（全結合層部分）と、それに近い畳み込みブロック（VGG16で言えばブロック５）の重みを再学習。</li>
-</ol>
+<li>事前・事後（どちらでもいい）に処理を追加できる</li>
+<li>ラップする関数を指定回数、連続実行するとかにしてもいい。</li>
+</ul>
 </li>
-<li>今回使ったサンプルコードでは、上記の1を飛ばして、直接2を実行している。<ul>
+<li>デコレータはcallable　である<ul>
+<li>callable＝引数を取って結果を返す、呼び出し可能なオブジェクトの総称</li>
+<li>decoratorはcallableであるとは、何か当たり前のことを言っているだけな気がする。</li>
+</ul>
+</li>
 <li>
-<p>その根拠としては、以下の　<code>block5_conv1 (Conv2D)</code> 以降の重みを再学習している。</p>
+<p>反して、<code>デコレータは必ずしもcallableを返す必要はない</code></p>
+<ul>
+<li>python構文上、どのような関数もデコレータとして使用できる</li>
+<li>よってデコレータにreturnが無い、という形式が文法上は成り立つ<ul>
+<li>実行時にはエラーになるということ？</li>
+<li>使い方があるのか要確認。でもいったん置いておく。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>使われ方で多いのは、自信をラップして置き換えてしまうこともある</p>
+<ul>
+<li>使うと混乱しそう。可読性が・・
+    <code>python
+    foo = outer(foo)</code></li>
+<li>なお、ラップする側の関数の名前やdocstringが、もとの関数のそれを上書きする。<ul>
+<li>抑止するためには<ul>
+<li>
+<blockquote>
+<p>from functools import wraps</p>
+</blockquote>
+</li>
+<li>docstringや関数名を保持することが出来るらしい。</li>
+<li>これもいったんは置いておく。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>シンタックスシュガー</p>
 <ul>
 <li>
-<p>確認１：プログラム中でfreezeしている層を確認。</p>
-<p>```  </p>
-<h1>最後のconv層の直前までの層をfreeze</h1>
-<p>for layer in model.layers[:15]:
-    layer.trainable = False
-```</p>
+<p>要は簡易表記。以下どちらも同じ。</p>
+<ul>
+<li>パターン１
+    <code>python
+    foo = outer(foo)</code></li>
+<li>パターン２（シンタックスシュガー）
+    <code>python
+    @outer
+    def foo():
+        # def of foo
+        pass</code><ul>
+<li>パターン３を記憶しておいたほうが良さそう</li>
+</ul>
 </li>
 <li>
-<p>確認２：VGG16と全結合層を結合した学習用のモデルを出力。</p>
-<p>```  </p>
-<hr>
-<h1>Layer (type)                 Output Shape              Param #</h1>
-<p>input_1 (InputLayer)         (None, 150, 150, 3)       0</p>
-<hr>
-<p>block1_conv1 (Conv2D)        (None, 150, 150, 64)      1792</p>
-<hr>
-<p>block1_conv2 (Conv2D)        (None, 150, 150, 64)      36928</p>
-<hr>
-<p>block1_pool (MaxPooling2D)   (None, 75, 75, 64)        0</p>
-<hr>
-<p>block2_conv1 (Conv2D)        (None, 75, 75, 128)       73856</p>
-<hr>
-<p>block2_conv2 (Conv2D)        (None, 75, 75, 128)       147584</p>
-<hr>
-<p>block2_pool (MaxPooling2D)   (None, 37, 37, 128)       0</p>
-<hr>
-<p>block3_conv1 (Conv2D)        (None, 37, 37, 256)       295168</p>
-<hr>
-<p>block3_conv2 (Conv2D)        (None, 37, 37, 256)       590080</p>
-<hr>
-<p>block3_conv3 (Conv2D)        (None, 37, 37, 256)       590080</p>
-<hr>
-<p>block3_pool (MaxPooling2D)   (None, 18, 18, 256)       0</p>
-<hr>
-<p>block4_conv1 (Conv2D)        (None, 18, 18, 512)       1180160</p>
-<hr>
-<p>block4_conv2 (Conv2D)        (None, 18, 18, 512)       2359808</p>
-<hr>
-<p>block4_conv3 (Conv2D)        (None, 18, 18, 512)       2359808</p>
-<hr>
-<p>block4_pool (MaxPooling2D)   (None, 9, 9, 512)         0</p>
-<hr>
-<p>block5_conv1 (Conv2D)        (None, 9, 9, 512)         2359808</p>
-<hr>
-<p>block5_conv2 (Conv2D)        (None, 9, 9, 512)         2359808</p>
-<hr>
-<p>block5_conv3 (Conv2D)        (None, 9, 9, 512)         2359808</p>
-<hr>
-<p>block5_pool (MaxPooling2D)   (None, 4, 4, 512)         0</p>
-<hr>
-<h1>sequential_1 (Sequential)    (None, 17)                2101777</h1>
-<p>Total params: 16,816,465
-Trainable params: 9,181,201
-Non-trainable params: 7,635,264</p>
-<hr>
+<p>パターン３（シンタックスシュガー）</p>
+<ul>
+<li>
+<p>デコレータに関数以外の引数がある場合</p>
+<p><code>python
+@outer()
+def foo():
+    # def of foo
+    pass</code></p>
+</li>
+<li>
+<p>このときデコレータは以下の書き方になる。ラップのラップ、みたいな構造で書く必要がある。
+    ```python
+    def outer(additional=3):</p>
+<div class="highlight"><pre><span></span><code><span class="n">def</span> <span class="n">actual_outer</span><span class="p">(</span><span class="k">function</span><span class="p">):</span>
+    <span class="o">#</span> <span class="err">以降は</span><span class="n">code例と同じ</span><span class="err">（略）</span>
+
+<span class="k">return</span> <span class="n">actual_outer</span>
+</code></pre></div>
+
+
 <p>```</p>
 </li>
 </ul>
@@ -207,102 +136,98 @@ Non-trainable params: 7,635,264</p>
 </ul>
 </li>
 <li>
-<p>ソースコード別理解</p>
+<p>アンパックを使ってデコレータを汎化できる</p>
 <ul>
-<li>他のソースコードの内容も確認し、Fine Tuningで勉強すべきトピックを確認する。</li>
-<li>
-<p>ソースコードと役割の確認</p>
-<ul>
-<li>データの準備<ul>
-<li>setup.py</li>
-</ul>
-</li>
-<li>学習メイン<ul>
-<li>finetuning.py</li>
-<li>vgg_scratch.py : VGG16の重みをランダム化した場合。学習が上手くいかない例のはず。</li>
-<li>finetuning_with_preprocess.py : 前処理を使っている。<font color="pink">別途調査したい。</font></li>
-</ul>
-</li>
-<li>
-<p>推論</p>
-<ul>
-<li>predict.py  : 画像１枚のみの推論</li>
-<li>evaluate.py : テストデータ全体の推論</li>
-<li>predict_with_preprocess.py : 画像１枚のみの推論。前処理を使っている。</li>
-</ul>
-</li>
-<li>
-<p>可視化</p>
-<ul>
-<li>extractor.py : ボトルネック特徴量（FC層の直前の出力）をファイルに保存。<font color="pink">モデルの検証方法として使えるかを調査したい。</font></li>
-<li>plot_results.py : matplotlibで学習ログを可視化</li>
-</ul>
-</li>
-<li>
-<p>helperと単純な？cnn</p>
-<ul>
-<li>smallcnn.py</li>
+<li><code>*args</code>は位置引数のタプル</li>
+<li><code>**kwargs</code>はキーワード引数の辞書</li>
+<li>呼び出し方によってどちらかが使われる、という理解</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ol>
 <hr>
-<h2>４．参考サイト／書籍</h2>
+<h2>Code</h2>
+<p>とりあえず関数実装。クラス実装もあるが省略。</p>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">decorator example</span>
+<span class="sd">* as function</span>
+<span class="sd">* with syntax sugar</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">mydecorator</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">wrapped</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># something pre-exec here</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pre-exec&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># something post-exec here</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;post-exec&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">wrapped</span>
+
+<span class="c1"># decorated function with syntax sugar</span>
+<span class="nd">@mydecorator</span>
+<span class="k">def</span> <span class="nf">mydecorated</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;original function, a:</span><span class="si">{}</span><span class="s2">, b:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+
+<span class="n">mydecorated</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="c1">#args will used</span>
+<span class="n">mydecorated</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="c1">#kwargs will used</span>
+</code></pre></div>
+
+
+<p>実行結果</p>
+<div class="highlight"><pre><span></span><code><span class="err">(3, 4)</span>
+<span class="err">{}</span>
+<span class="err">pre-exec</span>
+<span class="err">original function, a:3, b:4</span>
+<span class="err">post-exec</span>
+<span class="err">()</span>
+<span class="err">{&#39;a&#39;: 3, &#39;b&#39;: 4}</span>
+<span class="err">pre-exec</span>
+<span class="err">original function, a:3, b:4</span>
+<span class="err">post-exec</span>
+</code></pre></div>
+
+
+<hr>
+<h2>Future work、でもとりあえずやらなくても大丈夫</h2>
 <ol>
-<li>PythonとKerasによるディープラーニング（マイナビ出版）<ul>
-<li>Fine Tuningの考え方が載っていて、参考になった。</li>
+<li>デコレータの例文で静的なメソッドとクラスメソッドを並べている書籍がある。<ul>
+<li>けれど、結果など併記してなくて何を言いたいのか分かっていない。</li>
+<li>２者の違いから理解し、テスト実行の必要あり。</li>
 </ul>
 </li>
-<li><a href="http://aidiary.hatenablog.com/entry/20170131/1485864665">VGG16のFine-tuningによる17種類の花の分類</a><ul>
-<li>こちらからソースコードを入手して試行させて頂いた。</li>
+<li>デコレータがcallableを返さない場合、実行時にエラーとなるのか？<ul>
+<li>それなら、結局許されないのに等しいのか？</li>
+<li>それともなにか、使い道があるのか？</li>
 </ul>
 </li>
-</ol>
-<hr>
-<h2>５．検証環境</h2>
-<table>
-<thead>
-<tr>
-<th>No</th>
-<th>名称</th>
-<th>状況</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>CPU</td>
-<td>AMD Phenom(tm) II X6 1090T 3.20GHz<BR>これが<code>AVX（Advanced Vector Extensions）</code>を搭載しておらず、<BR>Tensorflowはver=1.5.0止まりとなってしまう。</td>
-</tr>
-<tr>
-<td>2</td>
-<td>GPU</td>
-<td>GeForce GTX 1060 6GB<br>Jupyter notebookに多少メモリ開放バグあるみたい？<br>たまに6GB上限を気にするレベルで、とりあえずまだ大丈夫。</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Memory</td>
-<td>16GB<br>機械学習のため秋葉原で中古メモリ増設。4-&gt;16で色々快適に。</td>
-</tr>
-<tr>
-<td>4</td>
-<td>Python</td>
-<td>Windows, Anaconda3-5.3.1 でver3.6の仮想環境（Tensorflow対応から3.6とした）</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Tensorflow</td>
-<td>Version 1.5.0<BR>Visual Studio 2015 Version 14.0.25431.01 Update 3<BR>CUDA V9.0.176<BR>cuDNN v7.0.5[Dec 5, 2017], for CUDA 9.0</td>
-</tr>
-</tbody>
-</table>                </article>
+<li><code>from functools import wraps</code> のテスト</li>
+</ol>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://sassea34.github.io/tensorflowdefinetuning.html" rel="bookmark"
+                           title="Permalink to tensorflowでFineTuning">tensorflowでFineTuning</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>土 16 11月 2019</span>
+
+</footer><!-- /.post-info -->                <p>勉強中です。随時更新。</p>
+                <a class="readmore" href="https://sassea34.github.io/tensorflowdefinetuning.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -423,24 +348,11 @@ Non-trainable params: 7,635,264</p>
                 <a class="readmore" href="https://sassea34.github.io/aws-sagemaker-gpu-setup.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html" rel="bookmark"
-                           title="Permalink to Pytorch と Tensorflow（ と Keras）">Pytorch と Tensorflow（ と Keras）</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <span>火 02 7月 2019</span>
-
-</footer><!-- /.post-info -->                <p>今のところPytorchが好き</p>
-                <a class="readmore" href="https://sassea34.github.io/pytorch-to-tensorflow-to-keras.html">read more</a>
-                </div><!-- /.entry-content -->
-            </article></li>
             </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 1
+    Page 1 / 2
+        <a href="https://sassea34.github.io/index2.html">&raquo;</a>
+        <a href="https://sassea34.github.io/index2.html">&#8649;</a>
 </p>
             </section><!-- /#content -->
         <section id="extras" class="body">
